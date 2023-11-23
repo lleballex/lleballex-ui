@@ -1,0 +1,10 @@
+@import '@/assets/css/config';
+
+.container {
+  padding: 16px 0;
+  border-top: 1px solid $black;
+}
+
+.content {
+  @include content;
+}
