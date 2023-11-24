@@ -20,6 +20,9 @@ export default function Button({
   onClick,
 }: Props) {
   // TODO: loading
+  // TODO: full width
+  // TODO: link
+  // TODO: white space
 
   return (
     <button

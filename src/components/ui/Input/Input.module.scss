@@ -1,0 +1,42 @@
+@import '@/assets/css/config';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.label {
+  @include paragraph-2;
+}
+
+.postscript {
+  @include caption-1;
+
+  &.error {
+    color: $red;
+  }
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid $black;
+  border-radius: $radius;
+  transition: $transition;
+
+  .container.error & {
+    border-color: $red;
+  }
+}
+
+.input {
+  @include paragraph-1;
+
+  border: none;
+  outline: none;
+  flex-grow: 1;
+}
