@@ -1,0 +1,79 @@
+@import '@/assets/css/config';
+
+.button {
+  @include paragraph-2;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 100px;
+  background: none;
+  border: 1px solid $black;
+  transition: $transition;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &.primary {
+    background: $black;
+    color: $white;
+
+    :global(.icon) {
+      stroke: $white;
+    }
+
+    &:not(:disabled):hover {
+      background: $white;
+      color: $black;
+
+      :global(.icon) {
+        stroke: $black;
+      }
+    }
+  }
+
+  &.secondary {
+    background: $white;
+    color: $black;
+
+    :global(.icon) {
+      stroke: $black;
+    }
+
+    &:not(:disabled):hover {
+      background: $black;
+      color: $white;
+
+      :global(.icon) {
+        stroke: $white;
+      }
+    }
+  }
+
+  &.text {
+    position: relative;
+    padding: 0;
+    border: none;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: calc(100% + 4px);
+      height: 1px;
+      left: 0;
+      right: 100%;
+      background: $black;
+      transition: $transition;
+    }
+
+    &:not(:disabled):hover:after {
+      right: 0;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}

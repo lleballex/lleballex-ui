@@ -12,7 +12,10 @@ interface Props {
 }
 
 export default function Icon({ icon, className, onClick }: Props) {
-  const args = { className: classNames(styles.icon, className), onClick } as any
+  const args = {
+    className: classNames('icon', styles.icon, className),
+    onClick,
+  } as any
 
   if (icon === 'times') {
     return <TimesIcon {...args} />
