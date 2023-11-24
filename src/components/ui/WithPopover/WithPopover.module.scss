@@ -1,0 +1,29 @@
+@import '@/assets/css/config';
+
+.container {
+  display: flex;
+  position: relative;
+}
+
+.main {
+  width: 100%;
+}
+
+.popover {
+  z-index: 1;
+  overflow: hidden;
+  background: red;
+  max-height: 300px;
+  min-width: 100%;
+
+  .container[data-status='initial'] &,
+  .container[data-status='close'] & {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  .container[data-status='open'] &,
+  .container[data-status='close'] & {
+    transition: $transition;
+  }
+}

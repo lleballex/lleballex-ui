@@ -1,0 +1,100 @@
+@import '@/assets/css/config';
+
+@mixin active {
+  .container[data-status='open'] & {
+    @content;
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  &[data-status='initial'],
+  &[data-status='close'] {
+    opacity: 0;
+  }
+
+  &[data-status='open'],
+  &[data-status='close'] {
+    background: rgba(0, 0, 0, 0.5);
+    transition: $transition;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  max-height: 90vh;
+  overflow: auto;
+  background: $white;
+  border-radius: $radius;
+  transform: scale(0);
+  transition: $transition;
+
+  @include active {
+    transform: none;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modalTitle {
+  @include heading-2;
+}
+
+.modalCloseIcon {
+  transition: $transition;
+
+  &:hover {
+    transform: scale($scale);
+    cursor: pointer;
+  }
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+@include not-tablet {
+  .mobile {
+    display: none;
+  }
+}
+
+@include tablet {
+  .desktop {
+    display: none;
+  }
+
+  .modal {
+    padding: 16px;
+    width: 100vw !important;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .modalFooter {
+    margin-top: auto;
+  }
+}

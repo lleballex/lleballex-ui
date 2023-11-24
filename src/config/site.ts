@@ -4,4 +4,7 @@ export const Site = {
     type: 'image/x-icon',
     href: '/favicon.ico',
   },
+  transition: {
+    duration: 400,
+  },
 }
