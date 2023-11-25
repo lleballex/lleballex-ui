@@ -1,0 +1,33 @@
+@import '@/assets/css/config';
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.radio {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 1px solid $black;
+  border-radius: 50%;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
+    border-radius: $radius;
+    background: $black;
+    opacity: 0;
+    transition: $transition;
+  }
+
+  &.active:after {
+    opacity: 1;
+  }
+}

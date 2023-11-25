@@ -3,6 +3,7 @@ import HomeButton from './HomeButton'
 import HomeInput from './HomeInput'
 import HomeSelect from './HomeSelect'
 import HomeSwitch from './HomeSwitch'
+import HomeRadioCheckbox from './HomeRadioCheckbox'
 import styles from './Home.module.scss'
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       <HomeInput />
       <HomeSelect />
       <HomeSwitch />
+      <HomeRadioCheckbox />
     </div>
   )
 }
