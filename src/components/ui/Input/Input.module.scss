@@ -39,4 +39,9 @@
   border: none;
   outline: none;
   flex-grow: 1;
+  background: none;
+
+  &:disabled {
+    pointer-events: none;
+  }
 }

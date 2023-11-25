@@ -17,6 +17,7 @@ export default function HomeInput() {
         placeholder="Placeholder"
         postscript="Postfix"
         error="Error"
+        type="number"
       />
     </div>
   )
