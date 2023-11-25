@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import { ReactNode } from 'react'
 import {
   useDismiss,
@@ -6,23 +6,48 @@ import {
   useInteractions,
   useTransitionStatus,
   autoUpdate,
-  shift,
   flip,
   useClick,
 } from '@floating-ui/react'
 import { Site } from '@/config/site'
+import classNames from 'classnames'
 import styles from './WithPopover.module.scss'
 
-interface Props {
-  children: [ReactNode, ReactNode]
+interface ChildProps {
+  className?: string
+  onClick?: MouseEventHandler<HTMLDivElement>
 }
 
-export default function WithPopover({ children }: Props) {
-  // TODO: finish
+interface Props {
+  className?: string
+  referenceProps?: ChildProps
+  reference: ReactNode
+  popoverProps?: ChildProps
+  popover: ReactNode
+  noClick?: boolean
+  isActive?: boolean
+  setIsActive?: (val: boolean) => void
+}
 
-  const [isShowed, setIsShowed] = useState(false)
+export default function WithPopover({
+  className,
+  referenceProps,
+  reference,
+  popoverProps,
+  popover,
+  noClick,
+  isActive,
+  setIsActive,
+}: Props) {
+  // TODO: more props - placement, middlewares
 
-  const { context, refs, floatingStyles } = useFloating({
+  const [isShowed, setIsShowed] = useState(isActive ?? false)
+  useEffect(() => setIsActive?.(isShowed), [isShowed])
+  useEffect(() => {
+    isActive !== undefined && setIsShowed(isActive)
+  }, [isActive])
+
+  const { context, refs, floatingStyles, placement } = useFloating({
     open: isShowed,
     onOpenChange: setIsShowed,
     whileElementsMounted: autoUpdate,
@@ -32,29 +57,35 @@ export default function WithPopover({ children }: Props) {
     duration: Site.transition.duration,
   })
   const dismiss = useDismiss(context)
-  const click = useClick(context)
+  const click = useClick(context, { enabled: !noClick })
   const { getFloatingProps, getReferenceProps } = useInteractions([
     dismiss,
     click,
   ])
 
   return (
-    <div className={styles.container} data-status={status}>
+    <div
+      className={classNames(styles.container, className)}
+      data-status={status}
+      data-placement={placement}
+    >
       <div
-        className={styles.main}
+        className={classNames(styles.main, referenceProps?.className)}
         ref={refs.setReference}
+        onClick={referenceProps?.onClick}
         {...getReferenceProps()}
       >
-        {children[0]}
+        {reference}
       </div>
       {isMounted && (
         <div
-          className={styles.popover}
+          className={classNames(styles.popover, popoverProps?.className)}
           ref={refs.setFloating}
           style={floatingStyles}
+          onClick={popoverProps?.onClick}
           {...getFloatingProps()}
         >
-          {children[1]}
+          {popover}
         </div>
       )}
     </div>
