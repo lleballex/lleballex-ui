@@ -4,9 +4,15 @@ import dynamic from 'next/dynamic'
 import styles from './Icon.module.scss'
 
 const TimesIcon = dynamic(() => import('@/assets/icons/times.svg'))
+const ChevronRightIcon = dynamic(
+  () => import('@/assets/icons/chevron-right.svg'),
+)
+const ChevronLeftIcon = dynamic(() => import('@/assets/icons/chevron-left.svg'))
+const ChevronUpIcon = dynamic(() => import('@/assets/icons/chevron-up.svg'))
+const ChevronDownIcon = dynamic(() => import('@/assets/icons/chevron-down.svg'))
 
 interface Props {
-  icon: 'times'
+  icon: 'times' | 'chevronRight' | 'chevronLeft' | 'chevronUp' | 'chevronDown'
   className?: string
   onClick?: MouseEventHandler<SVGElement>
 }
@@ -17,9 +23,18 @@ export default function Icon({ icon, className, onClick }: Props) {
     onClick,
   } as any
 
-  if (icon === 'times') {
-    return <TimesIcon {...args} />
+  switch (icon) {
+    case 'times':
+      return <TimesIcon {...args} />
+    case 'chevronRight':
+      return <ChevronRightIcon {...args} />
+    case 'chevronLeft':
+      return <ChevronLeftIcon {...args} />
+    case 'chevronUp':
+      return <ChevronUpIcon {...args} />
+    case 'chevronDown':
+      return <ChevronDownIcon {...args} />
+    default:
+      return null
   }
-
-  return null
 }
