@@ -1,0 +1,55 @@
+@import '@/assets/css/config';
+
+.chevronIcon {
+  transition: $transition;
+
+  .popoverContainer[data-placement='bottom'][data-status='open'] & {
+    transform: rotate(180deg);
+  }
+}
+
+.inputContainer {
+  cursor: pointer;
+
+  position: relative;
+
+  .popoverContainer[data-placement='bottom'][data-status='open'] & {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: transparent;
+  }
+
+  .popoverContainer[data-placement='top'][data-status='open'] & {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-color: transparent;
+  }
+}
+
+.items {
+  position: absolute;
+  background: $white;
+  border: 1px solid $black;
+  overflow: auto;
+
+  .popoverContainer[data-placement='bottom'] & {
+    border-radius: 0 0 $radius $radius;
+    border-top: none;
+  }
+
+  .popoverContainer[data-placement='top'] & {
+    border-radius: $radius $radius 0 0;
+    border-bottom: 0;
+  }
+}
+
+.item {
+  padding: 12px 14px;
+  transition: $transition;
+  cursor: pointer;
+
+  &:hover,
+  &.active {
+    background: $gray;
+  }
+}
