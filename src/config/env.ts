@@ -1,1 +1,1 @@
-export type EnvVariable = 'FIRST' | 'SECOND'
+export type EnvVariable = 'NEXT_PUBLIC_API_URL'
