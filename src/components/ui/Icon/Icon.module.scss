@@ -4,6 +4,12 @@
   width: 24px;
   height: 24px;
   stroke: $black;
+  transition: $transition;
+
+  &.hoverable:hover {
+    transform: scale($scale);
+    cursor: pointer;
+  }
 
   path {
     stroke: inherit;

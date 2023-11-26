@@ -1,0 +1,45 @@
+@import '@/assets/css/config';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  position: fixed;
+  top: 32px;
+  right: 32px;
+}
+
+.toast {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 16px;
+  max-height: 500px;
+  max-width: 400px;
+  border-radius: $radius;
+  background: $white;
+  box-shadow: $shadow;
+  transition: $transition;
+
+  &[data-status='enter'],
+  &[data-status='leave'] {
+    transform: translateX(calc(100% + 30px));
+    max-height: 0;
+    margin-bottom: calc(-32px - 16px);
+  }
+}
+
+.toastMain {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toastTitle {
+  @include heading-4;
+}
+
+.toastMain {
+  @include paragraph-1;
+}

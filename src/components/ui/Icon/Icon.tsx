@@ -22,11 +22,14 @@ interface Props {
     | 'chevronDown'
   className?: string
   onClick?: MouseEventHandler<SVGElement>
+  hoverable?: boolean
 }
 
-export default function Icon({ icon, className, onClick }: Props) {
+export default function Icon({ icon, className, onClick, hoverable }: Props) {
   const args = {
-    className: classNames('icon', styles.icon, className),
+    className: classNames('icon', styles.icon, className, {
+      [styles.hoverable]: hoverable,
+    }),
     onClick,
   } as any
 
