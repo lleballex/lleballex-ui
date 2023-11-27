@@ -48,11 +48,7 @@ export default function Modal({
             <p className={classNames(styles.modalTitle, styles.mobile)}>
               {mobileTitle}
             </p>
-            <Icon
-              className={styles.modalCloseIcon}
-              icon="times"
-              onClick={() => setIsShowed(false)}
-            />
+            <Icon icon="times" onClick={() => setIsShowed(false)} hoverable />
           </div>
           {children}
           {footer && <div className={styles.modalFooter}>{footer}</div>}

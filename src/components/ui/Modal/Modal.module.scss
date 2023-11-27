@@ -13,15 +13,17 @@
   position: fixed;
   inset: 0;
   z-index: 100;
+  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.5);
 
   &[data-status='initial'],
   &[data-status='close'] {
-    opacity: 0;
+    backdrop-filter: none;
+    background: none;
   }
 
   &[data-status='open'],
   &[data-status='close'] {
-    background: rgba(0, 0, 0, 0.5);
     transition: $transition;
   }
 }
@@ -57,16 +59,7 @@
 }
 
 .modalTitle {
-  @include heading-2;
-}
-
-.modalCloseIcon {
-  transition: $transition;
-
-  &:hover {
-    transform: scale($scale);
-    cursor: pointer;
-  }
+  @include heading-3;
 }
 
 .modalFooter {
@@ -86,12 +79,15 @@
     display: none;
   }
 
+  .container {
+    align-items: flex-end;
+  }
+
   .modal {
     padding: 16px;
     width: 100vw !important;
-    height: 100vh;
-    max-height: none;
-    border-radius: 0;
+    border-radius: 24px 24px 0px 0px;
+    transform: translateY(100%);
   }
 
   .modalFooter {

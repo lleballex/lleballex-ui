@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Modal from '@/components/ui/Modal'
+import Button from '@/components/ui/Button'
 
 export default function HomeModal() {
   const [isShowed, setIsShowed] = useState(false)
@@ -7,7 +8,7 @@ export default function HomeModal() {
 
   return (
     <>
-      <button onClick={() => setIsShowed(true)}>Open modal</button>
+      <Button onClick={() => setIsShowed(true)}>Open modal</Button>
 
       <Modal
         isShowed={isShowed}
@@ -16,18 +17,22 @@ export default function HomeModal() {
         mobileTitle="First modal mobile title"
         footer={
           <>
-            <button>first</button>
-            <button>second</button>
+            <Button>first</Button>
+            <Button>second</Button>
           </>
         }
       >
         <p>First modal</p>
-        <button onClick={() => setIsInnerShowed(true)}>
+        <Button onClick={() => setIsInnerShowed(true)}>
           Open another one modal
-        </button>
+        </Button>
       </Modal>
 
-      <Modal isShowed={isInnerShowed} setIsShowed={setIsInnerShowed} title="Inner modal">
+      <Modal
+        isShowed={isInnerShowed}
+        setIsShowed={setIsInnerShowed}
+        title="Inner modal"
+      >
         <p>Second modal</p>
       </Modal>
     </>
