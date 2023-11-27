@@ -11,6 +11,7 @@ const ChevronRightIcon = dynamic(
 const ChevronLeftIcon = dynamic(() => import('@/assets/icons/chevron-left.svg'))
 const ChevronUpIcon = dynamic(() => import('@/assets/icons/chevron-up.svg'))
 const ChevronDownIcon = dynamic(() => import('@/assets/icons/chevron-down.svg'))
+const LoadingIcon = dynamic(() => import('@/assets/icons/loading.svg'))
 
 interface Props {
   icon:
@@ -20,6 +21,7 @@ interface Props {
     | 'chevronLeft'
     | 'chevronUp'
     | 'chevronDown'
+    | 'loading'
   className?: string
   onClick?: MouseEventHandler<SVGElement>
   hoverable?: boolean
@@ -46,6 +48,8 @@ export default function Icon({ icon, className, onClick, hoverable }: Props) {
       return <ChevronUpIcon {...args} />
     case 'chevronDown':
       return <ChevronDownIcon {...args} />
+    case 'loading':
+      return <LoadingIcon {...args} />
     default:
       return null
   }

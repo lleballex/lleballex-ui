@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react'
 import classNames from 'classnames'
+import Spinner from '@/components/ui/Spinner'
 import styles from './Button.module.scss'
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
   disabled?: boolean
   htmlType?: ButtonHTMLAttributes<HTMLButtonElement>['type']
   onClick?: MouseEventHandler<HTMLButtonElement>
+  fullWidth?: boolean
+  loading?: boolean
 }
 
 export default function Button({
@@ -18,20 +21,20 @@ export default function Button({
   disabled,
   htmlType = 'button',
   onClick,
+  fullWidth,
+  loading,
 }: Props) {
-  // TODO: loading
-  // TODO: full width
-  // TODO: link
-  // TODO: white space
-
   return (
     <button
-      className={classNames(styles.button, styles[type], className)}
-      disabled={disabled}
+      className={classNames(styles.button, styles[type], className, {
+        [styles.full]: fullWidth,
+      })}
+      disabled={disabled || loading}
       type={htmlType}
       onClick={onClick}
     >
       {children}
+      {loading && <Spinner />}
     </button>
   )
 }
