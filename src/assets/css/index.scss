@@ -1,10 +1,39 @@
 @import '@/assets/css/config';
-@import '@/assets/fonts/Montserrat/stylesheet';
+@import '@/assets/fonts/AlterAves/stylesheet';
+@import '@/assets/fonts/GTWalsheim/stylesheet';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    height: calc(4px);
+    width: calc(4px);
+  }
+
+  &::-webkit-scrollbar-track {
+    &:horizontal {
+      border-bottom: 2px solid $gray-5;
+    }
+
+    &:vertical {
+      border-right: 2px solid $gray-5;
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $gray-1;
+    background-clip: padding-box;
+
+    &:horizontal {
+      border-bottom: 1px solid $gray-5;
+    }
+
+    &:vertical {
+      border-right: 1px solid $gray-5;
+    }
+  }
 }
 
 html {
@@ -15,7 +44,7 @@ body {
   @include paragraph-1;
 
   background: $white;
-  color: $black;
+  color: $gray-2;
 }
 
 h1 {

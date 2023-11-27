@@ -1,15 +1,15 @@
 @import '@/assets/css/config';
 
 .button {
-  @include paragraph-2;
+  @include button;
 
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 12px 24px;
-  border-radius: 100px;
+  border-radius: 30px;
   background: none;
-  border: 1px solid $black;
+  border: 1px solid $gray-2;
   transition: $transition;
 
   &:not(:disabled) {
@@ -17,37 +17,36 @@
   }
 
   &.primary {
-    background: $black;
-    color: $white;
+    background: $gray-2;
+    color: $gray-6;
 
     :global(.icon) {
-      stroke: $white;
+      stroke: $gray-6;
     }
 
     &:not(:disabled):hover {
-      background: $white;
-      color: $black;
+      background: none;
+      color: $gray-2;
 
       :global(.icon) {
-        stroke: $black;
+        stroke: $gray-2;
       }
     }
   }
 
   &.secondary {
-    background: $white;
-    color: $black;
+    color: $gray-2;
 
     :global(.icon) {
-      stroke: $black;
+      stroke: $gray-2;
     }
 
     &:not(:disabled):hover {
-      background: $black;
-      color: $white;
+      background: $gray-2;
+      color: $gray-6;
 
       :global(.icon) {
-        stroke: $white;
+        stroke: $gray-6;
       }
     }
   }
@@ -56,6 +55,7 @@
     position: relative;
     padding: 0;
     border: none;
+    color: $blue;
 
     &:after {
       content: '';
@@ -64,7 +64,7 @@
       height: 1px;
       left: 0;
       right: 100%;
-      background: $black;
+      background: $blue;
       transition: $transition;
     }
 
