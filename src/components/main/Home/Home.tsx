@@ -1,6 +1,6 @@
 // import HomeModal from './HomeModal'
 import HomeButton from './HomeButton'
-// import HomeInput from './HomeInput'
+import HomeInput from './HomeInput'
 // import HomeSelect from './HomeSelect'
 // import HomeSwitch from './HomeSwitch'
 // import HomeRadioCheckbox from './HomeRadioCheckbox'
@@ -14,7 +14,7 @@ export default function Home() {
     <div className={styles.container}>
       {/* <HomeModal /> */}
       <HomeButton />
-      {/* <HomeInput /> */}
+      <HomeInput />
       {/* <HomeSelect /> */}
       {/* <HomeSwitch /> */}
       {/* <HomeRadioCheckbox /> */}

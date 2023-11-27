@@ -15,7 +15,6 @@ export default function HomeInput() {
       <Input
         label="Label"
         placeholder="Placeholder"
-        postscript="Postfix"
         error="Error"
         type="number"
       />
