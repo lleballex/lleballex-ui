@@ -28,10 +28,19 @@
   padding: 10px 12px;
   border: 1px solid $gray-4;
   border-radius: $radius;
+  cursor: text;
   transition: $transition;
 
   .container.error & {
     border-color: $red;
+  }
+}
+
+.affix {
+  display: flex;
+
+  &.clickable {
+    cursor: default;
   }
 }
 
@@ -42,10 +51,6 @@
   outline: none;
   flex-grow: 1;
   background: none;
-
-  &:disabled {
-    pointer-events: none;
-  }
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {

@@ -1,4 +1,11 @@
-import { ChangeEventHandler, FocusEventHandler, ReactNode } from 'react'
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  MouseEventHandler,
+  ReactNode,
+  useRef,
+} from 'react'
+import { getFormError } from '@/lib/get-form-error'
 import classNames from 'classnames'
 import styles from './Input.module.scss'
 
@@ -10,10 +17,14 @@ interface Props<Type extends string | number> {
   postscript?: string
   type?: 'text' | 'email' | 'tel' | 'number'
   prefix?: ReactNode
+  prefixClickable?: boolean
   postfix?: ReactNode
+  postfixClickable?: boolean
   error?: string
-  // TODO: props type
-  inputContainer?: (args: { props: {}; component: ReactNode }) => ReactNode
+  inputContainer?: (args: {
+    props: { className: string; onClick?: MouseEventHandler<HTMLDivElement> }
+    component: ReactNode
+  }) => ReactNode
   blocked?: boolean
   value?: Type | null
   onChange?: (val: Type | null) => void
@@ -29,7 +40,9 @@ export default function Input<Type extends string | number = string>({
   postscript,
   type = 'text',
   prefix,
+  prefixClickable,
   postfix,
+  postfixClickable,
   error,
   inputContainer = ({ props, component }) => <div {...props}>{component}</div>,
   blocked,
@@ -38,8 +51,11 @@ export default function Input<Type extends string | number = string>({
   onFocus,
   onBlur,
 }: Props<Type>) {
-  // TODO: value, onchange, ref, react hook form, error animation, type - arrows for number and transform value
-  // TODO: disabled
+  // TODO: disabled - for all fields, error animation
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const prefixRef = useRef<HTMLDivElement | null>(null)
+  const postfixRef = useRef<HTMLDivElement | null>(null)
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     // TODO: fix typescript
@@ -55,6 +71,17 @@ export default function Input<Type extends string | number = string>({
     }
   }
 
+  const onInputContainerClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    if (
+      inputRef.current &&
+      e.target !== inputRef.current &&
+      (!prefixRef || !prefixRef.current?.contains(e.target as Element)) &&
+      (!postfixClickable || !postfixRef.current?.contains(e.target as Element))
+    ) {
+      inputRef.current.focus()
+    }
+  }
+
   return (
     <div
       className={classNames(styles.container, className, {
@@ -65,26 +92,44 @@ export default function Input<Type extends string | number = string>({
       {inputContainer({
         props: {
           className: classNames(styles.inputContainer, inputContainerClassName),
+          onClick: onInputContainerClick,
         },
         component: (
           <>
-            {prefix}
+            <div
+              className={classNames(styles.affix, {
+                [styles.clickable]: prefixClickable,
+              })}
+              ref={prefixRef}
+            >
+              {prefix}
+            </div>
             <input
               className={styles.input}
+              ref={inputRef}
               type={type}
               placeholder={placeholder}
               disabled={blocked}
-              value={value === null ? '' : value}
+              value={value ?? ''}
               onChange={onChange}
               onFocus={onFocus}
               onBlur={onBlur}
             />
-            {postfix}
+            <div
+              className={classNames(styles.affix, {
+                [styles.clickable]: postfixClickable,
+              })}
+              ref={postfixRef}
+            >
+              {postfix}
+            </div>
           </>
         ),
       })}
       {error && (
-        <p className={classNames(styles.postscript, styles.error)}>{error}</p>
+        <p className={classNames(styles.postscript, styles.error)}>
+          {getFormError(error)}
+        </p>
       )}
       {postscript && <p className={styles.postscript}>{postscript}</p>}
     </div>
