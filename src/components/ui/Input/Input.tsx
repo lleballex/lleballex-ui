@@ -52,6 +52,7 @@ export default function Input<Type extends string | number = string>({
   onBlur,
 }: Props<Type>) {
   // TODO: disabled - for all fields, error animation
+  // TODO: ref - for react hook form for example
 
   const inputRef = useRef<HTMLInputElement | null>(null)
   const prefixRef = useRef<HTMLDivElement | null>(null)
@@ -110,7 +111,11 @@ export default function Input<Type extends string | number = string>({
               type={type}
               placeholder={placeholder}
               disabled={blocked}
-              value={value ?? ''}
+              value={
+                value === null || (value === undefined && baseOnChange)
+                  ? ''
+                  : value
+              }
               onChange={onChange}
               onFocus={onFocus}
               onBlur={onBlur}
