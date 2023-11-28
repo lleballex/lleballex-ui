@@ -3,11 +3,13 @@ import { useForm, Controller } from 'react-hook-form'
 import { useToasts } from '@/lib/toasts'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
+import Switch from '@/components/ui/Switch'
 import styles from './HomeForm.module.scss'
 
 interface Form {
   name: string
   age: number
+  hasChildren: boolean
 }
 
 export default function HomeForm() {
@@ -16,7 +18,13 @@ export default function HomeForm() {
     handleSubmit,
     formState: { isValid },
     reset,
-  } = useForm<Form>()
+  } = useForm<Form>({
+    defaultValues: {
+      name: '',
+      age: NaN,
+      hasChildren: false,
+    },
+  })
 
   const toasts = useToasts()
 
@@ -55,6 +63,11 @@ export default function HomeForm() {
             label="Age"
           />
         )}
+      />
+      <Controller
+        control={control}
+        name="hasChildren"
+        render={({ field }) => <Switch {...field}>With children</Switch>}
       />
       <Button disabled={!isValid} htmlType="submit" loading={isLoading}>
         Submit

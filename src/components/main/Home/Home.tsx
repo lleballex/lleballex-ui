@@ -1,13 +1,13 @@
-import HomeModal from './HomeModal'
 import HomeButton from './HomeButton'
 import HomeInput from './HomeInput'
-// import HomeSelect from './HomeSelect'
 import HomeSwitch from './HomeSwitch'
+import HomeForm from './HomeForm'
+import HomeModal from './HomeModal'
+// import HomeSelect from './HomeSelect'
 // import HomeRadioCheckbox from './HomeRadioCheckbox'
 // import HomeDate from './HomeDate'
 // import HomeSlider from './HomeSlider'
 // import HomeToast from './HomeToast'
-import HomeForm from './HomeForm'
 import styles from './Home.module.scss'
 
 export default function Home() {
@@ -15,10 +15,10 @@ export default function Home() {
     <div className={styles.container}>
       <HomeButton />
       <HomeInput />
+      <HomeSwitch />
       <HomeForm />
       {/* <HomeModal /> */}
       {/* <HomeSelect /> */}
-      {/* <HomeSwitch /> */}
       {/* <HomeRadioCheckbox /> */}
       {/* <HomeDate /> */}
       {/* <HomeSlider /> */}
