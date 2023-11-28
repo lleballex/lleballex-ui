@@ -4,12 +4,14 @@ import { useToasts } from '@/lib/toasts'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Switch from '@/components/ui/Switch'
+import Checkbox from '@/components/ui/Checkbox'
 import styles from './HomeForm.module.scss'
 
 interface Form {
   name: string
   age: number
   hasChildren: boolean
+  policyAccepted: boolean
 }
 
 export default function HomeForm() {
@@ -23,6 +25,7 @@ export default function HomeForm() {
       name: '',
       age: NaN,
       hasChildren: false,
+      policyAccepted: false,
     },
   })
 
@@ -68,6 +71,16 @@ export default function HomeForm() {
         control={control}
         name="hasChildren"
         render={({ field }) => <Switch {...field}>With children</Switch>}
+      />
+      <Controller
+        control={control}
+        name="policyAccepted"
+        rules={{ required: true }}
+        render={({ field, fieldState }) => (
+          <Checkbox {...field} error={fieldState.error?.type}>
+            I agree with the policy
+          </Checkbox>
+        )}
       />
       <Button disabled={!isValid} htmlType="submit" loading={isLoading}>
         Submit

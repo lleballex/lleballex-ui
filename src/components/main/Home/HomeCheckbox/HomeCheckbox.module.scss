@@ -1,11 +1,10 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 16px;
 }
 
-.switches {
+.checkboxes {
   display: flex;
   align-items: flex-start;
   gap: 32px;

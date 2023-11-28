@@ -2,12 +2,14 @@ import { useState, ReactNode, useEffect } from 'react'
 import classNames from 'classnames'
 import Icon from '@/components/ui/Icon'
 import styles from './Checkbox.module.scss'
+import { getFormError } from '@/lib/get-form-error'
 
 interface Props {
   className?: string
   value?: boolean
   onChange?: (val: boolean) => void
   children?: ReactNode
+  error?: string
 }
 
 export default function Checkbox({
@@ -15,16 +17,25 @@ export default function Checkbox({
   value,
   onChange,
   children,
+  error,
 }: Props) {
+  // TODO: ref - for react hook form
+  // TODO: disabled
+
   const [isActive, setIsActive] = useState(value ?? false)
 
   useEffect(() => {
-    setIsActive(value ?? isActive)
+    if (value !== undefined && value !== isActive) {
+      setIsActive(value)
+    }
   }, [value])
 
   const toggle = () => {
     if (onChange || value !== undefined) {
       onChange?.(!isActive)
+      if (value === undefined) {
+        setIsActive(!isActive)
+      }
     } else {
       setIsActive(!isActive)
     }
@@ -32,12 +43,18 @@ export default function Checkbox({
 
   return (
     <div className={classNames(styles.container, className)} onClick={toggle}>
-      <div
-        className={classNames(styles.checkbox, { [styles.active]: isActive })}
-      >
-        <Icon className={styles.checkboxIcon} icon="check" />
+      <div className={styles.main}>
+        <div
+          className={classNames(styles.checkbox, {
+            [styles.active]: isActive,
+            [styles.error]: !!error,
+          })}
+        >
+          <Icon className={styles.checkboxIcon} icon="check" />
+        </div>
+        {children}
       </div>
-      {children}
+      {error && <p className={styles.error}>{getFormError(error)}</p>}
     </div>
   )
 }

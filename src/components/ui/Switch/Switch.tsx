@@ -17,6 +17,7 @@ export default function Switch({
 }: Props) {
   // TODO: ref - for react hook form
   // TODO: disabled
+  // TODO: error
 
   const [value, setValue] = useState(baseValue ?? false)
 
