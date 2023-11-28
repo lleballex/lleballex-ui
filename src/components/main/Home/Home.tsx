@@ -7,6 +7,7 @@ import HomeSwitch from './HomeSwitch'
 // import HomeDate from './HomeDate'
 // import HomeSlider from './HomeSlider'
 // import HomeToast from './HomeToast'
+import HomeForm from './HomeForm'
 import styles from './Home.module.scss'
 
 export default function Home() {
@@ -15,8 +16,9 @@ export default function Home() {
       <HomeButton />
       <HomeModal />
       <HomeInput />
+      <HomeForm />
       {/* <HomeSelect /> */}
-      <HomeSwitch />
+      {/* <HomeSwitch /> */}
       {/* <HomeRadioCheckbox /> */}
       {/* <HomeDate /> */}
       {/* <HomeSlider /> */}
