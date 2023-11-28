@@ -3,8 +3,8 @@ import HomeInput from './HomeInput'
 import HomeSwitch from './HomeSwitch'
 import HomeCheckbox from './HomeCheckbox'
 import HomeRadio from './HomeRadio'
+import HomeModal from './HomeModal'
 import HomeForm from './HomeForm'
-// import HomeModal from './HomeModal'
 // import HomeSelect from './HomeSelect'
 // import HomeRadioCheckbox from './HomeRadioCheckbox'
 // import HomeDate from './HomeDate'
@@ -20,14 +20,15 @@ export default function Home() {
       <HomeSwitch />
       <HomeCheckbox />
       <HomeRadio />
+      <HomeModal />
       <HomeForm />
-      {/* <HomeModal /> */}
       {/* <HomeSelect /> */}
       {/* <HomeRadioCheckbox /> */}
       {/* <HomeDate /> */}
       {/* <HomeSlider /> */}
       {/* <HomeToast /> */}
-      *filters* *password input, textarea* *forms*
+      *filters* *password input, textarea* *forms* *slider* *range* *date time
+      range pickers*
     </div>
   )
 }

@@ -1,40 +1,47 @@
 import { useState } from 'react'
 import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
+import styles from './HomeModal.module.scss'
 
 export default function HomeModal() {
   const [isShowed, setIsShowed] = useState(false)
   const [isInnerShowed, setIsInnerShowed] = useState(false)
 
   return (
-    <>
+    <div className={styles.container}>
+      <h2>Modals</h2>
+
       <Button onClick={() => setIsShowed(true)}>Open modal</Button>
 
       <Modal
         isShowed={isShowed}
         setIsShowed={setIsShowed}
-        title="First modal"
-        mobileTitle="First modal mobile title"
+        header="Modal"
+        mobileHeader="Mobile modal"
         footer={
           <>
-            <Button>first</Button>
-            <Button>second</Button>
+            <Button onClick={() => setIsShowed(false)} type="secondary">
+              Cancel
+            </Button>
+            <Button onClick={() => setIsShowed(false)} type="primary">
+              Submit
+            </Button>
           </>
         }
       >
-        <p>First modal</p>
-        <Button onClick={() => setIsInnerShowed(true)}>
+        <Button type="text" onClick={() => setIsInnerShowed(true)}>
           Open another one modal
         </Button>
       </Modal>
 
       <Modal
-        isShowed={isInnerShowed}
+        isShowed={isInnerShowed && isShowed}
         setIsShowed={setIsInnerShowed}
-        title="Inner modal"
+        header="Inner modal"
+        width={400}
       >
-        <p>Second modal</p>
+        <p>It is second modal inside first modal</p>
       </Modal>
-    </>
+    </div>
   )
 }

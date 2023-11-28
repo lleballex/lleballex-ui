@@ -13,8 +13,8 @@ export interface ModalStateProps {
 export interface ModalProps extends ModalStateProps {
   className?: string
   children?: ReactNode
-  title: ReactNode
-  mobileTitle?: ReactNode
+  header: ReactNode
+  mobileHeader?: ReactNode
   width?: number
   footer?: ReactNode
 }
@@ -24,8 +24,8 @@ export default function Modal({
   setIsShowed,
   className,
   children,
-  title,
-  mobileTitle = title,
+  header,
+  mobileHeader = header,
   width = 600,
   footer,
 }: ModalProps) {
@@ -42,12 +42,12 @@ export default function Modal({
         <span className={styles.backdrop} onClick={() => setIsShowed(false)} />
         <div className={classNames(styles.modal, className)} style={{ width }}>
           <div className={styles.modalHeader}>
-            <p className={classNames(styles.modalTitle, styles.desktop)}>
-              {title}
-            </p>
-            <p className={classNames(styles.modalTitle, styles.mobile)}>
-              {mobileTitle}
-            </p>
+            <div className={classNames(styles.modalTitle, styles.desktop)}>
+              {header}
+            </div>
+            <div className={classNames(styles.modalTitle, styles.mobile)}>
+              {mobileHeader}
+            </div>
             <Icon icon="times" onClick={() => setIsShowed(false)} hoverable />
           </div>
           {children}
