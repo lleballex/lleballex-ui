@@ -5,12 +5,14 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Switch from '@/components/ui/Switch'
 import Checkbox from '@/components/ui/Checkbox'
+import RadioGroup from '@/components/ui/RadioGroup'
 import styles from './HomeForm.module.scss'
 
 interface Form {
   name: string
   age: number
   hasChildren: boolean
+  numberOfHands: number
   policyAccepted: boolean
 }
 
@@ -25,6 +27,7 @@ export default function HomeForm() {
       name: '',
       age: NaN,
       hasChildren: false,
+      numberOfHands: 0,
       policyAccepted: false,
     },
   })
@@ -71,6 +74,21 @@ export default function HomeForm() {
         control={control}
         name="hasChildren"
         render={({ field }) => <Switch {...field}>With children</Switch>}
+      />
+      <Controller
+        control={control}
+        name="numberOfHands"
+        rules={{ required: true }}
+        render={({ field }) => (
+          <RadioGroup
+            {...field}
+            items={[
+              { key: 0, value: 'No hands' },
+              { key: 1, value: 'One hand' },
+              { key: 2, value: 'Two hands' },
+            ]}
+          />
+        )}
       />
       <Controller
         control={control}

@@ -1,8 +1,8 @@
 import { useState, ReactNode, useEffect } from 'react'
+import { getFormError } from '@/lib/get-form-error'
 import classNames from 'classnames'
 import Icon from '@/components/ui/Icon'
 import styles from './Checkbox.module.scss'
-import { getFormError } from '@/lib/get-form-error'
 
 interface Props {
   className?: string

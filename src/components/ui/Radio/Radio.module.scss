@@ -2,6 +2,12 @@
 
 .container {
   display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.main {
+  display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
@@ -11,8 +17,9 @@
   position: relative;
   width: 24px;
   height: 24px;
-  border: 1px solid $black;
+  border: 1px solid $gray-2;
   border-radius: 50%;
+  transition: $transition;
 
   &:after {
     content: '';
@@ -22,7 +29,7 @@
     left: 6px;
     right: 6px;
     border-radius: $radius;
-    background: $black;
+    background: $gray-2;
     opacity: 0;
     transition: $transition;
   }
@@ -30,4 +37,17 @@
   &.active:after {
     opacity: 1;
   }
+
+  &.error {
+    border-color: $red;
+
+    &:after {
+      background: $red;
+    }
+  }
+}
+
+.error {
+  @include caption-1;
+  color: $red;
 }

@@ -2,8 +2,9 @@ import HomeButton from './HomeButton'
 import HomeInput from './HomeInput'
 import HomeSwitch from './HomeSwitch'
 import HomeCheckbox from './HomeCheckbox'
+import HomeRadio from './HomeRadio'
 import HomeForm from './HomeForm'
-import HomeModal from './HomeModal'
+// import HomeModal from './HomeModal'
 // import HomeSelect from './HomeSelect'
 // import HomeRadioCheckbox from './HomeRadioCheckbox'
 // import HomeDate from './HomeDate'
@@ -18,6 +19,7 @@ export default function Home() {
       <HomeInput />
       <HomeSwitch />
       <HomeCheckbox />
+      <HomeRadio />
       <HomeForm />
       {/* <HomeModal /> */}
       {/* <HomeSelect /> */}
