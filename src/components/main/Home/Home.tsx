@@ -14,9 +14,9 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <HomeButton />
-      <HomeModal />
       <HomeInput />
       <HomeForm />
+      {/* <HomeModal /> */}
       {/* <HomeSelect /> */}
       {/* <HomeSwitch /> */}
       {/* <HomeRadioCheckbox /> */}
