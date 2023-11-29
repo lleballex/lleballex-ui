@@ -5,6 +5,10 @@
 
   .popoverContainer[data-placement='bottom'][data-status='open'] & {
     transform: rotate(180deg);
+
+    &:hover {
+      transform: rotate(180deg) scale($scale);
+    }
   }
 }
 
@@ -26,11 +30,22 @@
   }
 }
 
+.input {
+  .container:not(.inputtable) & {
+    pointer-events: none;
+  }
+}
+
 .items {
   position: absolute;
   background: $white;
-  border: 1px solid $black;
+  border: 1px solid $gray-4;
   overflow: auto;
+  transition: $transition border-color;
+
+  .container.error & {
+    border-color: $red;
+  }
 
   .popoverContainer[data-placement='bottom'] & {
     border-radius: 0 0 $radius $radius;
@@ -50,6 +65,6 @@
 
   &:hover,
   &.active {
-    background: $gray;
+    background: $gray-6;
   }
 }

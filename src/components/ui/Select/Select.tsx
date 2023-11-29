@@ -1,4 +1,4 @@
-import { Key, ReactNode, useState } from 'react'
+import { Key, MouseEventHandler, ReactNode, useState } from 'react'
 import classNames from 'classnames'
 import Input from '@/components/ui/Input'
 import WithPopover from '@/components/ui/WithPopover'
@@ -6,16 +6,16 @@ import Sandwich from '@/components/ui/Sandwich'
 import Icon from '@/components/ui/Icon'
 import styles from './Select.module.scss'
 
-interface Item {
+interface Item<ItemValue> {
   key: Key
-  value: ReactNode
+  value: ItemValue
 }
 
-interface Props {
+interface Props<ItemValue> {
   className?: string
-  items?: Item[]
-  renderItem?: (item: Item) => ReactNode
-  filterItem?: (item: Item, query: string) => boolean
+  items?: Item<ItemValue>[]
+  renderItem?: (item: Item<ItemValue>) => ReactNode
+  filterItem?: (item: Item<ItemValue>, query: string) => boolean
   mutliple?: boolean
   clearable?: boolean
   inputtable?: boolean
@@ -25,7 +25,7 @@ interface Props {
   error?: string
 }
 
-export default function Select({
+export default function Select<ItemValue = any>({
   className,
   items = [],
   renderItem,
@@ -37,15 +37,18 @@ export default function Select({
   placeholder,
   postscript,
   error,
-}: Props) {
-  // TODO: value, onchange, react hook form
+}: Props<ItemValue>) {
+  // TODO: ref - for react hook form
+  // TODO: disabled
+  // TODO: value, onchange, react hook form, close on header click
+  // TODO: add default placement
 
   const [isActive, setIsActive] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const [value, setValue] = useState<Key[]>([])
   const [query, setQuery] = useState<null | string>(null)
 
-  const toggleItem = (item: Item) => {
+  const toggleItem = (item: Item<ItemValue>) => {
     if (mutliple) {
       const idx = value.indexOf(item.key)
       if (idx === -1) {
@@ -63,7 +66,8 @@ export default function Select({
     }
   }
 
-  const clear = () => {
+  const clear: MouseEventHandler = (e) => {
+    e.stopPropagation()
     setValue([])
     setQuery('')
     setIsActive(false)
@@ -77,8 +81,12 @@ export default function Select({
 
   return (
     <Input
-      className={classNames(styles.container, className)}
+      className={classNames(styles.container, className, {
+        [styles.inputtable]: inputtable,
+        [styles.error]: !!error,
+      })}
       inputContainerClassName={styles.inputContainer}
+      inputClassName={styles.input}
       label={label}
       placeholder={placeholder}
       postscript={postscript}
@@ -94,20 +102,32 @@ export default function Select({
           items={[
             {
               key: 'false',
-              value: <Icon className={styles.chevronIcon} icon="chevronDown" />,
+              value: (
+                <Icon
+                  className={styles.chevronIcon}
+                  icon="chevronDown"
+                  hoverable
+                />
+              ),
             },
             {
               key: 'true',
-              value: <Icon icon="times" onClick={clear} />,
+              value: <Icon icon="times" onClick={clear} hoverable />,
             },
           ]}
-          activeKey={(!!value.length).toString()}
+          activeKey={!clearable ? 'false' : (!!value.length).toString()}
         />
       }
       inputContainer={({ props, component }) => (
         <WithPopover
           className={styles.popoverContainer}
-          referenceProps={{ ...props, onClick: () => setIsActive(true) }}
+          referenceProps={{
+            ...props,
+            onClick: (e) => {
+              setIsActive(true)
+              props.onClick?.(e)
+            },
+          }}
           reference={component}
           popoverProps={{ className: styles.items }}
           popover={items
@@ -132,7 +152,8 @@ export default function Select({
                 key={item.key}
                 onClick={() => toggleItem(item)}
               >
-                {renderItem?.(item) ?? item.value}
+                {/* TODO: fix typescript */}
+                {renderItem?.(item) ?? (item.value as any)}
               </div>
             ))}
           isActive={isActive}
