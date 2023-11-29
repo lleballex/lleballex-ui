@@ -1,90 +1,9 @@
-import {
-  PropsWithChildren,
-  ReactNode,
-  createContext,
-  useContext,
-  useState,
-} from 'react'
-import { Site } from '@/config/site'
+import { useToasts } from '@/lib/toasts'
 import Icon from '@/components/ui/Icon'
 import styles from './Toasts.module.scss'
 
-interface Toast {
-  title?: ReactNode
-  content: ReactNode
-}
-
-interface ToastFull extends Toast {
-  id: string
-  status: 'enter' | 'active' | 'leave'
-}
-
-export const ToastsContext = createContext<{
-  items: ToastFull[]
-  add: (data: Toast) => void
-  remove: (id: string) => void
-}>({
-  items: [],
-  add: () => {},
-  remove: () => {},
-})
-
-export const ToastsProvider = ({ children }: PropsWithChildren) => {
-  // TODO: auto remove
-
-  const [toasts, setToasts] = useState<ToastFull[]>([])
-
-  const add = (data: Toast) => {
-    const id = new Date().toISOString()
-
-    setToasts([
-      ...toasts,
-      {
-        ...data,
-        status: 'enter',
-        id,
-      },
-    ])
-
-    setTimeout(() => {
-      setToasts((prev) => {
-        const idx = prev.findIndex((i) => i.id === id)
-        if (idx !== -1) {
-          const newVal = [...prev]
-          newVal[idx].status = 'active'
-          return newVal
-        } else {
-          return prev
-        }
-      })
-    }, Site.transition.duration)
-  }
-
-  const remove = (id: string) => {
-    const idx = toasts.findIndex((i) => i.id === id)
-
-    if (idx !== -1) {
-      setToasts((prev) => {
-        const newVal = [...prev]
-        newVal[idx].status = 'leave'
-        return newVal
-      })
-
-      setTimeout(() => {
-        setToasts((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)])
-      }, Site.transition.duration)
-    }
-  }
-
-  return (
-    <ToastsContext.Provider value={{ add, remove, items: toasts }}>
-      {children}
-    </ToastsContext.Provider>
-  )
-}
-
 export default function Toasts() {
-  const { items, remove } = useContext(ToastsContext)
+  const { items, remove } = useToasts()
 
   if (!items.length) return null
 

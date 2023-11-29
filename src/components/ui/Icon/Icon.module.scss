@@ -1,6 +1,7 @@
 @import '@/assets/css/config';
 
 .icon {
+  flex-shrink: 0;
   width: 24px;
   height: 24px;
   stroke: $gray-1;

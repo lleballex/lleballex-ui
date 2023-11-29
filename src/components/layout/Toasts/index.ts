@@ -1,5 +1,8 @@
 import Toasts from './Toasts'
+import ToastsProvider from './ToastsProvider'
 
-export { ToastsProvider, ToastsContext } from './Toasts'
+export { ToastsContext } from './toasts-utils'
 
 export default Toasts
+
+export { ToastsProvider }

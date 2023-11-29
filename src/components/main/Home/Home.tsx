@@ -4,12 +4,12 @@ import HomeSwitch from './HomeSwitch'
 import HomeCheckbox from './HomeCheckbox'
 import HomeRadio from './HomeRadio'
 import HomeModal from './HomeModal'
+import HomeToast from './HomeToast'
 import HomeForm from './HomeForm'
 // import HomeSelect from './HomeSelect'
 // import HomeRadioCheckbox from './HomeRadioCheckbox'
 // import HomeDate from './HomeDate'
 // import HomeSlider from './HomeSlider'
-// import HomeToast from './HomeToast'
 import styles from './Home.module.scss'
 
 export default function Home() {
@@ -21,12 +21,12 @@ export default function Home() {
       <HomeCheckbox />
       <HomeRadio />
       <HomeModal />
+      <HomeToast />
       <HomeForm />
       {/* <HomeSelect /> */}
       {/* <HomeRadioCheckbox /> */}
       {/* <HomeDate /> */}
       {/* <HomeSlider /> */}
-      {/* <HomeToast /> */}
       *filters* *password input, textarea* *forms* *slider* *range* *date time
       range pickers*
     </div>
