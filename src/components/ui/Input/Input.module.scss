@@ -36,14 +36,6 @@
   }
 }
 
-.affix {
-  display: flex;
-
-  &.clickable {
-    cursor: default;
-  }
-}
-
 .input {
   @include paragraph-2;
 

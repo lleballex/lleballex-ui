@@ -12,14 +12,13 @@ import styles from './Input.module.scss'
 interface Props<Type extends string | number> {
   className?: string
   inputContainerClassName?: string
+  inputClassName?: string
   label?: string
   placeholder?: string
   postscript?: string
   type?: 'text' | 'email' | 'tel' | 'number'
   prefix?: ReactNode
-  prefixClickable?: boolean
   postfix?: ReactNode
-  postfixClickable?: boolean
   error?: string
   inputContainer?: (args: {
     props: { className: string; onClick?: MouseEventHandler<HTMLDivElement> }
@@ -35,14 +34,13 @@ interface Props<Type extends string | number> {
 export default function Input<Type extends string | number = string>({
   className,
   inputContainerClassName,
+  inputClassName,
   label,
   placeholder,
   postscript,
   type = 'text',
   prefix,
-  prefixClickable,
   postfix,
-  postfixClickable,
   error,
   inputContainer = ({ props, component }) => <div {...props}>{component}</div>,
   blocked,
@@ -55,8 +53,6 @@ export default function Input<Type extends string | number = string>({
   // TODO: ref - for react hook form for example
 
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const prefixRef = useRef<HTMLDivElement | null>(null)
-  const postfixRef = useRef<HTMLDivElement | null>(null)
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     // TODO: fix typescript
@@ -73,12 +69,7 @@ export default function Input<Type extends string | number = string>({
   }
 
   const onInputContainerClick: MouseEventHandler<HTMLDivElement> = (e) => {
-    if (
-      inputRef.current &&
-      e.target !== inputRef.current &&
-      (!prefixRef || !prefixRef.current?.contains(e.target as Element)) &&
-      (!postfixClickable || !postfixRef.current?.contains(e.target as Element))
-    ) {
+    if (inputRef.current && e.target !== inputRef.current) {
       inputRef.current.focus()
     }
   }
@@ -97,16 +88,9 @@ export default function Input<Type extends string | number = string>({
         },
         component: (
           <>
-            <div
-              className={classNames(styles.affix, {
-                [styles.clickable]: prefixClickable,
-              })}
-              ref={prefixRef}
-            >
-              {prefix}
-            </div>
+            {prefix}
             <input
-              className={styles.input}
+              className={classNames(styles.input, inputClassName)}
               ref={inputRef}
               type={type}
               placeholder={placeholder}
@@ -120,14 +104,7 @@ export default function Input<Type extends string | number = string>({
               onFocus={onFocus}
               onBlur={onBlur}
             />
-            <div
-              className={classNames(styles.affix, {
-                [styles.clickable]: postfixClickable,
-              })}
-              ref={postfixRef}
-            >
-              {postfix}
-            </div>
+            {postfix}
           </>
         ),
       })}

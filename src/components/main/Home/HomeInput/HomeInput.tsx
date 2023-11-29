@@ -15,7 +15,6 @@ export default function HomeInput() {
           postscript="Postfix"
           prefix={<Icon icon="times" />}
           postfix={<Icon icon="times" hoverable />}
-          postfixClickable
         />
         <Input
           label="Label"

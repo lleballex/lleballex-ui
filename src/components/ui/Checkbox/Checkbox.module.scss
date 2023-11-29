@@ -31,6 +31,10 @@
 }
 
 .checkboxIcon {
+  .checkbox.error & {
+    stroke: $red;
+  }
+
   .checkbox:not(.active) & {
     stroke: $white;
   }
