@@ -1,4 +1,4 @@
-import { Key, MouseEventHandler, ReactNode, useState } from 'react'
+import { Key, MouseEventHandler, ReactNode, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import Input from '@/components/ui/Input'
 import WithPopover from '@/components/ui/WithPopover'
@@ -11,56 +11,102 @@ interface Item<ItemValue> {
   value: ItemValue
 }
 
-interface Props<ItemValue> {
+interface Props<ItemValue, IsMultiple extends boolean> {
   className?: string
   items?: Item<ItemValue>[]
   renderItem?: (item: Item<ItemValue>) => ReactNode
   filterItem?: (item: Item<ItemValue>, query: string) => boolean
-  mutliple?: boolean
+  multiple?: IsMultiple
   clearable?: boolean
   inputtable?: boolean
   label?: string
   placeholder?: string
   postscript?: string
   error?: string
+  value?: IsMultiple extends true ? Key[] : Key
+  onChange?: (val: IsMultiple extends true ? Key[] : Key) => void
 }
 
-export default function Select<ItemValue = any>({
+export default function Select<
+  ItemValue = any,
+  IsMultiple extends boolean = false,
+>({
   className,
   items = [],
   renderItem,
   filterItem,
-  mutliple,
+  multiple,
   clearable,
   inputtable,
   label,
   placeholder,
   postscript,
   error,
-}: Props<ItemValue>) {
+  value: baseValue,
+  onChange: baseOnChange,
+}: Props<ItemValue, IsMultiple>) {
   // TODO: ref - for react hook form
   // TODO: disabled
-  // TODO: value, onchange, react hook form, close on header click
   // TODO: add default placement
+
+  const [value, setValue] = useState<Key[]>(
+    Array.isArray(baseValue)
+      ? baseValue
+      : baseValue === undefined
+        ? []
+        : [baseValue],
+  )
+
+  useEffect(() => {
+    if (baseValue !== undefined) {
+      setValue(Array.isArray(baseValue) ? baseValue : [baseValue])
+    }
+  }, [baseValue])
+
+  const onChange = (val: Key[]) => {
+    if (baseOnChange || baseValue !== undefined) {
+      // TODO: fix typescript
+      //@ts-ignore
+      baseOnChange?.(multiple ? val : val[0])
+      if (baseValue === undefined) {
+        setValue(val)
+      }
+    } else {
+      setValue(val)
+    }
+  }
 
   const [isActive, setIsActive] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
-  const [value, setValue] = useState<Key[]>([])
   const [query, setQuery] = useState<null | string>(null)
 
+  useEffect(() => {
+    if (!isActive && query) {
+      setQuery(null)
+    }
+  }, [isActive])
+
+  const toggleIsActive: MouseEventHandler = (e) => {
+    if (!isActive) {
+      setIsActive(true)
+    } else if ((e.target as Element).tagName !== 'INPUT') {
+      setIsActive(false)
+    }
+  }
+
   const toggleItem = (item: Item<ItemValue>) => {
-    if (mutliple) {
+    if (multiple) {
       const idx = value.indexOf(item.key)
       if (idx === -1) {
-        setValue([...value, item.key])
+        onChange([...value, item.key])
       } else {
-        setValue([...value.slice(0, idx), ...value.slice(idx + 1)])
+        onChange([...value.slice(0, idx), ...value.slice(idx + 1)])
       }
     } else {
       if (clearable && value.includes(item.key)) {
-        setValue([])
+        onChange([])
       } else {
-        setValue([item.key])
+        onChange([item.key])
       }
       setIsActive(false)
     }
@@ -68,15 +114,20 @@ export default function Select<ItemValue = any>({
 
   const clear: MouseEventHandler = (e) => {
     e.stopPropagation()
-    setValue([])
-    setQuery('')
+    onChange([])
     setIsActive(false)
   }
 
-  const getInputValue = () => {
-    if (!value.length) return null
-    else if (value.length > 1) return `Выбрано: ${value.length}`
-    else return value[0].toString()
+  const getInputValue = (): any => {
+    if (!value.length) {
+      return null
+    } else if (value.length > 1) {
+      return `Выбрано: ${value.length}`
+    } else {
+      const item = items.find((i) => i.key === value[0])
+      // TODO: add renderInputValue
+      return item ? item.value : null
+    }
   }
 
   return (
@@ -124,7 +175,7 @@ export default function Select<ItemValue = any>({
           referenceProps={{
             ...props,
             onClick: (e) => {
-              setIsActive(true)
+              toggleIsActive(e)
               props.onClick?.(e)
             },
           }}
@@ -142,7 +193,7 @@ export default function Select<ItemValue = any>({
                     .includes(query.toLowerCase())),
             )
             .sort((a, b) =>
-              !mutliple ? 0 : +value.includes(b.key) - +value.includes(a.key),
+              !multiple ? 0 : +value.includes(b.key) - +value.includes(a.key),
             )
             .map((item) => (
               <div

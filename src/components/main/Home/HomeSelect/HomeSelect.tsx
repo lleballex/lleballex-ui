@@ -63,7 +63,7 @@ export default function HomeSelect() {
           filterItem={(item, query) =>
             `times${item.value}`.includes(query.toLowerCase())
           }
-          mutliple
+          multiple
           clearable
           inputtable
         />

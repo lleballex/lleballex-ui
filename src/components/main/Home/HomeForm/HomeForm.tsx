@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useToasts } from '@/lib/toasts'
 import Input from '@/components/ui/Input'
@@ -6,11 +6,13 @@ import Button from '@/components/ui/Button'
 import Switch from '@/components/ui/Switch'
 import Checkbox from '@/components/ui/Checkbox'
 import RadioGroup from '@/components/ui/RadioGroup'
+import Select from '@/components/ui/Select'
 import styles from './HomeForm.module.scss'
 
 interface Form {
   name: string
   age: number
+  colors: string[]
   hasChildren: boolean
   numberOfHands: number
   policyAccepted: boolean
@@ -42,7 +44,7 @@ export default function HomeForm() {
       console.log(data)
       setIsLoading(false)
       reset()
-      toasts.add({ content: 'Форма успешно отработала' })
+      toasts.add({ content: 'Success! Everything works correctly' })
     }, 2000)
   }
 
@@ -67,6 +69,24 @@ export default function HomeForm() {
             type="number"
             error={fieldState.error?.type}
             label="Age"
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="colors"
+        rules={{ required: true }}
+        render={({ field, fieldState }) => (
+          <Select
+            {...field}
+            error={fieldState.error?.message}
+            label="Favourite colors"
+            items={[
+              { key: 'red', value: 'Red' },
+              { key: 'blue', value: 'Blue' },
+              { key: 'gray', value: 'Gray' },
+            ]}
+            multiple
           />
         )}
       />

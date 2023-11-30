@@ -33,6 +33,7 @@
 .input {
   .container:not(.inputtable) & {
     pointer-events: none;
+    color: $gray-2;
   }
 }
 
