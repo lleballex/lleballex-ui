@@ -1,0 +1,56 @@
+@import '@/assets/css/config';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.slider {
+  height: 40px;
+  width: 100%;
+}
+
+.sliderTrack {
+  background: $gray-5;
+  top: 7px;
+  height: 4px;
+  border-radius: 10px;
+
+  .slider.multi & {
+    &:not(.first):not(.last) {
+      background: $gray-3;
+    }
+  }
+
+  .slider:not(.multi) & {
+    &.first {
+      background: $gray-3;
+    }
+  }
+}
+
+.sliderThumbContainer {
+  @include caption-1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  outline: none;
+}
+
+.sliderThumb {
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: $gray-3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.error {
+  @include caption-1;
+  color: $red;
+}

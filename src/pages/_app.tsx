@@ -6,6 +6,13 @@ import Footer from '@/components/layout/Footer'
 import Toasts, { ToastsProvider } from '@/components/layout/Toasts'
 import '@/assets/css/index.scss'
 
+/*
+  TODO:
+  add defaultValue to all controls?
+  add label and general error to checkbox and radio group
+  add label postscript to all controls?
+*/
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
