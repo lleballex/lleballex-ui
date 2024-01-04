@@ -1,0 +1,58 @@
+@import '@/assets/css/config';
+
+.inputContainer {
+  cursor: pointer;
+
+  .withPopover[data-placement='bottom-start'][data-status='open'] & {
+    border-bottom-left-radius: 0;
+  }
+
+  .withPopover[data-placement='top-start'][data-status='open'] & {
+    border-top-left-radius: 0;
+  }
+
+  input {
+    pointer-events: none;
+    color: $gray-2;
+  }
+}
+
+.itemsContainer {
+  display: flex;
+  background: $white;
+  border: 1px solid $gray-4;
+  transition: $transition border-color;
+  min-width: 0;
+
+  .container.error & {
+    border-color: $red;
+  }
+
+  .withPopover[data-placement='bottom-start'] & {
+    border-radius: 0 0 $radius $radius;
+    border-top: none;
+  }
+
+  .withPopover[data-placement='top-start'] & {
+    border-radius: $radius $radius 0 0;
+    border-bottom: 0;
+  }
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.item {
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: $transition;
+
+  &:hover,
+  &.active {
+    background: $gray-6;
+  }
+}

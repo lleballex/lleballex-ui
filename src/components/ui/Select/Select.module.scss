@@ -3,7 +3,7 @@
 .chevronIcon {
   transition: $transition;
 
-  .popoverContainer[data-placement='bottom'][data-status='open'] & {
+  .popoverContainer[data-placement='bottom-start'][data-status='open'] & {
     transform: rotate(180deg);
 
     &:hover {
@@ -17,13 +17,13 @@
 
   position: relative;
 
-  .popoverContainer[data-placement='bottom'][data-status='open'] & {
+  .popoverContainer[data-placement='bottom-start'][data-status='open'] & {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom-color: transparent;
   }
 
-  .popoverContainer[data-placement='top'][data-status='open'] & {
+  .popoverContainer[data-placement='top-start'][data-status='open'] & {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-top-color: transparent;
@@ -48,12 +48,12 @@
     border-color: $red;
   }
 
-  .popoverContainer[data-placement='bottom'] & {
+  .popoverContainer[data-placement='bottom-start'] & {
     border-radius: 0 0 $radius $radius;
     border-top: none;
   }
 
-  .popoverContainer[data-placement='top'] & {
+  .popoverContainer[data-placement='top-start'] & {
     border-radius: $radius $radius 0 0;
     border-bottom: 0;
   }

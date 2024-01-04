@@ -52,6 +52,7 @@ export default function WithPopover({
     onOpenChange: setIsShowed,
     whileElementsMounted: autoUpdate,
     middleware: [flip()],
+    placement: 'bottom-start',
   })
   const { isMounted, status } = useTransitionStatus(context, {
     duration: Site.transition.duration,

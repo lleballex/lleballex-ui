@@ -1,6 +1,7 @@
 import HomeButton from './HomeButton'
 import HomeInput from './HomeInput'
 import HomeSelect from './HomeSelect'
+import HomeTimePicker from './HomeTimePicker'
 import HomeSwitch from './HomeSwitch'
 import HomeCheckbox from './HomeCheckbox'
 import HomeRadio from './HomeRadio'
@@ -18,6 +19,7 @@ export default function Home() {
       <HomeButton />
       <HomeInput />
       <HomeSelect />
+      <HomeTimePicker />
       <HomeSwitch />
       <HomeCheckbox />
       <HomeRadio />
