@@ -1,5 +1,6 @@
 import Input from '@/components/ui/Input'
 import Icon from '@/components/ui/Icon'
+import BaseButton from '@/components/ui/BaseButton'
 import styles from './HomeInput.module.scss'
 
 export default function HomeInput() {
@@ -19,7 +20,9 @@ export default function HomeInput() {
           placeholder="Type something"
           prefix={<Icon icon="times" />}
           postfix={
-            <Icon icon="times" onClick={(e) => e.stopPropagation()} hoverable />
+            <BaseButton hoverable stopPropagation>
+              <Icon icon="times" />
+            </BaseButton>
           }
         />
         <Input label="Label" placeholder="Type something" error="Error" />

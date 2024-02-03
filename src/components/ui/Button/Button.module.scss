@@ -11,7 +11,6 @@
   border-radius: 30px;
   width: fit-content;
   height: fit-content;
-  background: none;
   border: 1px solid $gray-2;
   transition: $transition;
 
@@ -80,6 +79,7 @@
     position: relative;
     padding: 0;
     border: none;
+    border-radius: $radius;
     color: $blue;
 
     :global(.icon) {
@@ -87,8 +87,7 @@
     }
 
     &:focus-visible {
-      outline: 3px solid $blue;
-      outline-offset: 3px;
+      outline-color: $blue;
     }
 
     &:after {

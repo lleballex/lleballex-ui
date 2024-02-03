@@ -49,7 +49,8 @@ export default function MountTransition({
       })}
       data-state={state}
     >
-      {prevChildren}
+      {/* we need another wrapper because children might have width or height properties */}
+      <div>{prevChildren}</div>
     </div>
   )
 }

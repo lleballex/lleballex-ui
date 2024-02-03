@@ -8,8 +8,6 @@ interface Props {
 
 export default function Spinner({ className }: Props) {
   return (
-    <div className={classNames(styles.container, className)}>
-      <Icon className={styles.spinner} icon="loading" />
-    </div>
+    <Icon className={classNames(styles.spinner, className)} icon="loading" />
   )
 }

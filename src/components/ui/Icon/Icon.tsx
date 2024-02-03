@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react'
+import { useMemo } from 'react'
 import classNames from 'classnames'
 import dynamic from 'next/dynamic'
 import styles from './Icon.module.scss'
@@ -13,8 +13,10 @@ const ChevronUpIcon = dynamic(() => import('@/assets/icons/chevron-up.svg'))
 const ChevronDownIcon = dynamic(() => import('@/assets/icons/chevron-down.svg'))
 const LoadingIcon = dynamic(() => import('@/assets/icons/loading.svg'))
 const ClockIcon = dynamic(() => import('@/assets/icons/clock.svg'))
+const CalendarIcon = dynamic(() => import('@/assets/icons/calendar.svg'))
 
 interface Props {
+  className?: string
   icon:
     | 'times'
     | 'check'
@@ -24,37 +26,42 @@ interface Props {
     | 'chevronDown'
     | 'loading'
     | 'clock'
-  className?: string
-  onClick?: MouseEventHandler<SVGElement>
-  hoverable?: boolean
+    | 'calendar'
 }
 
-export default function Icon({ icon, className, onClick, hoverable }: Props) {
-  const args = {
-    className: classNames('icon', styles.icon, className, {
-      [styles.hoverable]: hoverable,
-    }),
-    onClick,
-  } as any
+export default function Icon({ icon, className }: Props) {
+  const Icon = useMemo(() => {
+    switch (icon) {
+      case 'times':
+        return TimesIcon
+      case 'check':
+        return CheckIcon
+      case 'chevronRight':
+        return ChevronRightIcon
+      case 'chevronLeft':
+        return ChevronLeftIcon
+      case 'chevronUp':
+        return ChevronUpIcon
+      case 'chevronDown':
+        return ChevronDownIcon
+      case 'loading':
+        return LoadingIcon
+      case 'clock':
+        return ClockIcon
+      case 'calendar':
+        return CalendarIcon
+      default:
+        return null
+    }
+  }, [icon])
 
-  switch (icon) {
-    case 'times':
-      return <TimesIcon {...args} />
-    case 'check':
-      return <CheckIcon {...args} />
-    case 'chevronRight':
-      return <ChevronRightIcon {...args} />
-    case 'chevronLeft':
-      return <ChevronLeftIcon {...args} />
-    case 'chevronUp':
-      return <ChevronUpIcon {...args} />
-    case 'chevronDown':
-      return <ChevronDownIcon {...args} />
-    case 'loading':
-      return <LoadingIcon {...args} />
-    case 'clock':
-      return <ClockIcon {...args} />
-    default:
-      return null
+  if (!Icon) {
+    return null
   }
+
+  return (
+    <div className={classNames(styles.container, className, 'icon')}>
+      <Icon />
+    </div>
+  )
 }

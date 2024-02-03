@@ -1,18 +1,19 @@
 @import '@/assets/css/config';
 
-.icon {
+.container {
+  display: flex;
   flex-shrink: 0;
   width: 24px;
   height: 24px;
   stroke: $gray-1;
+  stroke-width: 1.5px;
   transition: $transition;
 
-  &.hoverable:hover {
-    transform: scale($scale);
-    cursor: pointer;
-  }
-
-  path {
-    stroke: inherit;
+  svg {
+    path {
+      fill: inherit;
+      stroke: inherit;
+      stroke-width: inherit;
+    }
   }
 }

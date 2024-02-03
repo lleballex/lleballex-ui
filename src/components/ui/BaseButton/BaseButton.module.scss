@@ -1,0 +1,22 @@
+@import '@/assets/css/config';
+
+.button {
+  @include paragraph-2;
+
+  padding: 0;
+  border: none;
+  background: none;
+  color: $gray-2;
+  cursor: pointer;
+  border-radius: $radius;
+  transition: $transition;
+
+  &.hoverable:hover {
+    transform: scale($scale);
+  }
+
+  &:focus-visible {
+    outline: 3px solid $gray-2;
+    outline-offset: 2px;
+  }
+}

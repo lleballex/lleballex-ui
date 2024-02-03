@@ -20,9 +20,11 @@
 .input {
   @include paragraph-2;
 
+  flex-grow: 1;
+  width: 0;
   border: none;
   outline: none;
   flex-grow: 1;
   background: none;
-  width: 100%;
+  color: $gray-2;
 }
