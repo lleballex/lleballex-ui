@@ -1,40 +1,45 @@
 import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react'
 import classNames from 'classnames'
+import MountTransition from '@/components/ui/MountTransition'
 import Spinner from '@/components/ui/Spinner'
 import styles from './Button.module.scss'
 
 interface Props {
-  children?: ReactNode
   className?: string
   type?: 'primary' | 'secondary' | 'text'
-  disabled?: boolean
   htmlType?: ButtonHTMLAttributes<HTMLButtonElement>['type']
-  onClick?: MouseEventHandler<HTMLButtonElement>
   fullWidth?: boolean
   loading?: boolean
+  children?: ReactNode
+  onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
 export default function Button({
-  children,
   className,
   type = 'primary',
-  disabled,
   htmlType = 'button',
-  onClick,
   fullWidth,
   loading,
+  children,
+  onClick,
 }: Props) {
+  // TODO: ref
+  // TODO: link
+  // TODO: stop propagation, prevent default, base button
+
   return (
     <button
       className={classNames(styles.button, styles[type], className, {
         [styles.full]: fullWidth,
       })}
-      disabled={disabled || loading}
+      disabled={loading}
       type={htmlType}
       onClick={onClick}
     >
       {children}
-      {loading && <Spinner />}
+      <MountTransition gap horizontal>
+        {loading && <Spinner />}
+      </MountTransition>
     </button>
   )
 }

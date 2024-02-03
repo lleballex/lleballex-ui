@@ -14,9 +14,6 @@ export default function HomeButton() {
           <span>Primary icons</span>
           <Icon icon="times" />
         </Button>
-        <Button type="primary" disabled>
-          Primary disabled
-        </Button>
         <Button type="primary" loading>
           Primary loading
         </Button>
@@ -29,9 +26,6 @@ export default function HomeButton() {
           <span>Secondary icon</span>
           <Icon icon="times" />
         </Button>
-        <Button type="secondary" disabled>
-          Secondary disabled
-        </Button>
         <Button type="secondary" loading>
           Secondary loading
         </Button>
@@ -43,9 +37,6 @@ export default function HomeButton() {
           <Icon icon="times" />
           <span>Text icons</span>
           <Icon icon="times" />
-        </Button>
-        <Button type="text" disabled>
-          Text disabled
         </Button>
         <Button type="text" loading>
           Text loading

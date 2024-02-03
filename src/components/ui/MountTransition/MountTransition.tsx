@@ -6,13 +6,15 @@ import styles from './MountTransition.module.scss'
 interface Props {
   className?: string
   gap?: boolean
+  horizontal?: boolean
   children?: ReactNode
 }
 
 export default function MountTransition({
   className,
-  children,
   gap: hasGap,
+  horizontal: isHorizontal,
+  children,
 }: Props) {
   // TODO: use react transition group
 
@@ -43,6 +45,7 @@ export default function MountTransition({
     <div
       className={classNames(styles.container, className, {
         [styles.gap]: hasGap,
+        [styles.horizontal]: isHorizontal,
       })}
       data-state={state}
     >

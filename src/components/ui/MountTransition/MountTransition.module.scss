@@ -2,19 +2,39 @@
 
 .container {
   display: grid;
-  grid-template-rows: 0fr;
   opacity: 0;
+  grid-template-rows: 0fr;
+  grid-template-columns: 0fr;
   overflow: hidden;
   transition: $transition;
 
-  &.gap {
-    margin-top: calc(var(--gap) / (-2));
-    margin-bottom: calc(var(--gap) / (-2));
+  &[data-state='active'] {
+    opacity: 1;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
   }
 
-  &[data-state='active'] {
-    grid-template-rows: 1fr;
-    opacity: 1;
-    margin-top: 0;
+  &:not(.horizontal) {
+    &.gap {
+      margin-top: calc(var(--gap) / (-2));
+      margin-bottom: calc(var(--gap) / (-2));
+    }
+
+    &[data-state='active'] {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &.horizontal {
+    &.gap {
+      margin-left: calc(var(--gap) / (-2));
+      margin-right: calc(var(--gap) / (-2));
+    }
+
+    &[data-state='active'] {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 }

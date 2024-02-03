@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  --gap: 10px;
   padding: 12px 24px;
   border-radius: 30px;
   width: fit-content;
@@ -30,12 +31,21 @@
       stroke: $gray-6;
     }
 
+    &:focus-visible {
+      outline: 3px solid $white;
+      outline-offset: -5px;
+    }
+
     &:not(:disabled):hover {
       background: none;
       color: $gray-2;
 
       :global(.icon) {
         stroke: $gray-2;
+      }
+
+      &:focus-visible {
+        outline-color: $gray-2;
       }
     }
   }
@@ -47,12 +57,21 @@
       stroke: $gray-2;
     }
 
+    &:focus-visible {
+      outline: 3px solid $gray-2;
+      outline-offset: -5px;
+    }
+
     &:not(:disabled):hover {
       background: $gray-2;
       color: $gray-6;
 
       :global(.icon) {
         stroke: $gray-6;
+      }
+
+      &:focus-visible {
+        outline-color: $white;
       }
     }
   }
@@ -65,6 +84,11 @@
 
     :global(.icon) {
       stroke: $blue;
+    }
+
+    &:focus-visible {
+      outline: 3px solid $blue;
+      outline-offset: 3px;
     }
 
     &:after {

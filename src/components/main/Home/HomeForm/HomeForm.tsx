@@ -1,24 +1,24 @@
 import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useToasts } from '@/lib/toasts'
-import { Moment } from 'moment'
+// import { Moment } from 'moment'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
-import Switch from '@/components/ui/Switch'
-import Checkbox from '@/components/ui/Checkbox'
-import RadioGroup from '@/components/ui/RadioGroup'
-import Select from '@/components/ui/Select'
-import TimePicker from '@/components/ui/TimePicker'
+// import Switch from '@/components/ui/Switch'
+// import Checkbox from '@/components/ui/Checkbox'
+// import RadioGroup from '@/components/ui/RadioGroup'
+// import Select from '@/components/ui/Select'
+// import TimePicker from '@/components/ui/TimePicker'
 import styles from './HomeForm.module.scss'
 
 interface Form {
   name: string
   age: number
-  birthTime: Moment
-  colors: string[]
-  hasChildren: boolean
-  numberOfHands: number
-  policyAccepted: boolean
+  // birthTime: Moment
+  // colors: string[]
+  // hasChildren: boolean
+  // numberOfHands: number
+  // policyAccepted: boolean
 }
 
 export default function HomeForm() {
@@ -29,11 +29,11 @@ export default function HomeForm() {
     reset,
   } = useForm<Form>({
     defaultValues: {
-      name: '',
-      age: NaN,
-      hasChildren: false,
-      numberOfHands: 0,
-      policyAccepted: false,
+      // name: '',
+      // age: NaN,
+      // hasChildren: false,
+      // numberOfHands: 0,
+      // policyAccepted: false,
     },
   })
 
@@ -75,7 +75,7 @@ export default function HomeForm() {
           />
         )}
       />
-      <Controller
+      {/* <Controller
         control={control}
         name="colors"
         rules={{ required: true }}
@@ -134,8 +134,8 @@ export default function HomeForm() {
             I agree with the policy
           </Checkbox>
         )}
-      />
-      <Button disabled={!isValid} htmlType="submit" loading={isLoading}>
+      /> */}
+      <Button htmlType="submit" loading={isLoading}>
         Submit
       </Button>
     </form>
