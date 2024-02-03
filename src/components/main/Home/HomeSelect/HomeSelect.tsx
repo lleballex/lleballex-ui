@@ -8,7 +8,6 @@ export default function HomeSelect() {
       <h2>Selects</h2>
       <div className={styles.selects}>
         <Select
-          placeholder="Default select"
           items={[
             { key: '1', value: '1' },
             { key: '2', value: '2' },
@@ -20,6 +19,22 @@ export default function HomeSelect() {
             { key: '8', value: '8' },
             { key: '9', value: '9' },
           ]}
+        />
+        <Select
+          label="Clearable"
+          postscript="Postscript"
+          items={[
+            { key: '1', value: '1' },
+            { key: '2', value: '2' },
+            { key: '3', value: '3' },
+            { key: '4', value: '4' },
+            { key: '5', value: '5' },
+            { key: '6', value: '6' },
+            { key: '7', value: '7' },
+            { key: '8', value: '8' },
+            { key: '9', value: '9' },
+          ]}
+          clearable
         />
         <Select
           label="Inputtable + clearable"
@@ -41,7 +56,7 @@ export default function HomeSelect() {
         />
         <Select
           label="Multiple + inputtable + clearable"
-          placeholder='"times1" or "1"'
+          placeholder="Type something"
           error="Error"
           items={[
             { key: '1', value: '1' },

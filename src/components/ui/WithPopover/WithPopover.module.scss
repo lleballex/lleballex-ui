@@ -13,7 +13,6 @@
   z-index: 1;
   overflow: hidden;
   max-height: 300px;
-  min-width: 100%;
 
   .container[data-status='initial'] &,
   .container[data-status='close'] & {
@@ -23,6 +22,8 @@
 
   .container[data-status='open'] &,
   .container[data-status='close'] & {
-    transition: $transition;
+    transition:
+      $transition opacity,
+      $transition max-height;
   }
 }

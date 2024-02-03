@@ -28,6 +28,7 @@ export interface BaseInputProps<Type extends InputType> {
   id?: string
   type?: Type
   error?: boolean
+  blocked?: boolean
   placeholder?: string
   prefix?: ReactNode
   postfix?: ReactNode
@@ -55,6 +56,7 @@ const BaseInput = <Type extends InputType = 'text'>(
     id,
     type: baseType,
     error: hasError,
+    blocked: isBlocked,
     placeholder,
     prefix,
     postfix,
@@ -133,6 +135,7 @@ const BaseInput = <Type extends InputType = 'text'>(
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        disabled={isBlocked}
       />
       {postfix}
     </div>

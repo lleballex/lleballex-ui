@@ -1,4 +1,3 @@
-import { MouseEventHandler, useEffect, useState } from 'react'
 import { ReactNode } from 'react'
 import {
   useDismiss,
@@ -8,55 +7,61 @@ import {
   autoUpdate,
   flip,
   useClick,
+  Placement,
+  UseFloatingOptions,
 } from '@floating-ui/react'
+import { useControlValue } from '@/lib/use-control-value'
 import { Site } from '@/config/site'
 import classNames from 'classnames'
 import styles from './WithPopover.module.scss'
 
-interface ChildProps {
-  className?: string
-  onClick?: MouseEventHandler<HTMLDivElement>
-}
-
 interface Props {
   className?: string
-  referenceProps?: ChildProps
-  reference: ReactNode
-  popoverProps?: ChildProps
-  popover: ReactNode
+  referenceClassName?: string
+  popoverClassName?: string
+  strategy?: UseFloatingOptions['strategy']
+  placement?: Placement
   noClick?: boolean
+  reference: ReactNode
+  popover: ReactNode
   isActive?: boolean
   setIsActive?: (val: boolean) => void
 }
 
 export default function WithPopover({
   className,
-  referenceProps,
-  reference,
-  popoverProps,
-  popover,
+  referenceClassName,
+  popoverClassName,
+  strategy = 'absolute',
+  placement: basePlacement,
   noClick,
-  isActive,
-  setIsActive,
+  reference,
+  popover,
+  isActive: baseIsActive,
+  setIsActive: baseSetIsActive,
 }: Props) {
   // TODO: more props - placement, middlewares
 
-  const [isShowed, setIsShowed] = useState(isActive ?? false)
-  useEffect(() => setIsActive?.(isShowed), [isShowed])
-  useEffect(() => {
-    isActive !== undefined && setIsShowed(isActive)
-  }, [isActive])
+  const { value: isActive, onChange: setIsActive } = useControlValue({
+    baseValue: baseIsActive,
+    baseOnChange: baseSetIsActive,
+    transformBaseValue: (val) => val ?? false,
+    transformValue: (val) => val,
+  })
 
   const { context, refs, floatingStyles, placement } = useFloating({
-    open: isShowed,
-    onOpenChange: setIsShowed,
+    open: isActive,
+    onOpenChange: setIsActive,
     whileElementsMounted: autoUpdate,
     middleware: [flip()],
-    placement: 'bottom-start',
+    placement: basePlacement,
+    strategy,
   })
+
   const { isMounted, status } = useTransitionStatus(context, {
     duration: Site.transition.duration,
   })
+
   const dismiss = useDismiss(context)
   const click = useClick(context, { enabled: !noClick })
   const { getFloatingProps, getReferenceProps } = useInteractions([
@@ -66,24 +71,22 @@ export default function WithPopover({
 
   return (
     <div
-      className={classNames(styles.container, className)}
+      className={classNames(className, styles.container)}
       data-status={status}
       data-placement={placement}
     >
       <div
-        className={classNames(styles.main, referenceProps?.className)}
+        className={classNames(referenceClassName, styles.main)}
         ref={refs.setReference}
-        onClick={referenceProps?.onClick}
         {...getReferenceProps()}
       >
         {reference}
       </div>
       {isMounted && (
         <div
-          className={classNames(styles.popover, popoverProps?.className)}
+          className={classNames(popoverClassName, styles.popover)}
           ref={refs.setFloating}
           style={floatingStyles}
-          onClick={popoverProps?.onClick}
           {...getFloatingProps()}
         >
           {popover}

@@ -1,29 +1,15 @@
 @import '@/assets/css/config';
 
-.chevronIcon {
-  transition: $transition;
-
-  .popoverContainer[data-placement='bottom-start'][data-status='open'] & {
-    transform: rotate(180deg);
-
-    &:hover {
-      transform: rotate(180deg) scale($scale);
-    }
-  }
-}
-
 .inputContainer {
   cursor: pointer;
 
-  position: relative;
-
-  .popoverContainer[data-placement='bottom-start'][data-status='open'] & {
+  .withPopover[data-placement='bottom'][data-status='open'] & {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom-color: transparent;
   }
 
-  .popoverContainer[data-placement='top-start'][data-status='open'] & {
+  .withPopover[data-placement='top'][data-status='open'] & {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-top-color: transparent;
@@ -31,29 +17,29 @@
 }
 
 .input {
-  .container:not(.inputtable) & {
+  .withPopover:not(.inputtable) & {
     pointer-events: none;
     color: $gray-2;
   }
 }
 
 .items {
-  position: absolute;
+  max-height: 300px;
+  width: 100%;
   background: $white;
   border: 1px solid $gray-4;
-  overflow: auto;
   transition: $transition border-color;
 
-  .container.error & {
+  .withPopover.error & {
     border-color: $red;
   }
 
-  .popoverContainer[data-placement='bottom-start'] & {
+  .withPopover[data-placement='bottom'] & {
     border-radius: 0 0 $radius $radius;
     border-top: none;
   }
 
-  .popoverContainer[data-placement='top-start'] & {
+  .withPopover[data-placement='top'] & {
     border-radius: $radius $radius 0 0;
     border-bottom: 0;
   }
@@ -67,5 +53,21 @@
   &:hover,
   &.active {
     background: $gray-6;
+  }
+}
+
+.itemsNothing {
+  padding: 12px 14px;
+}
+
+.chevronIcon {
+  transition: $transition;
+
+  .withPopover[data-placement='bottom'][data-status='open'] & {
+    transform: rotate(180deg);
+
+    &:hover {
+      transform: rotate(180deg) scale($scale);
+    }
   }
 }

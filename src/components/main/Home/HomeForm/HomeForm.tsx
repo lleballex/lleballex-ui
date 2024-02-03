@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button'
 // import Switch from '@/components/ui/Switch'
 // import Checkbox from '@/components/ui/Checkbox'
 // import RadioGroup from '@/components/ui/RadioGroup'
-// import Select from '@/components/ui/Select'
+import Select from '@/components/ui/Select'
 // import TimePicker from '@/components/ui/TimePicker'
 import styles from './HomeForm.module.scss'
 
@@ -15,7 +15,7 @@ interface Form {
   name: string
   age: number
   // birthTime: Moment
-  // colors: string[]
+  colors: string[]
   // hasChildren: boolean
   // numberOfHands: number
   // policyAccepted: boolean
@@ -75,14 +75,14 @@ export default function HomeForm() {
           />
         )}
       />
-      {/* <Controller
+      <Controller
         control={control}
         name="colors"
         rules={{ required: true }}
         render={({ field, fieldState }) => (
           <Select
             {...field}
-            error={fieldState.error?.message}
+            error={fieldState.error?.type}
             label="Favourite colors"
             items={[
               { key: 'red', value: 'Red' },
@@ -93,7 +93,7 @@ export default function HomeForm() {
           />
         )}
       />
-      <Controller
+      {/*<Controller
         control={control}
         name="birthTime"
         rules={{ required: true }}

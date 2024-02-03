@@ -1,6 +1,6 @@
 import HomeButton from './HomeButton'
 import HomeInput from './HomeInput'
-// import HomeSelect from './HomeSelect'
+import HomeSelect from './HomeSelect'
 // import HomeTimePicker from './HomeTimePicker'
 // import HomeDatePicker from './HomeDatePicker'
 // import HomeSwitch from './HomeSwitch'
@@ -19,7 +19,7 @@ export default function Home() {
     <div className={styles.container}>
       <HomeButton />
       <HomeInput />
-      {/* <HomeSelect /> */}
+      <HomeSelect />
       {/* <HomeTimePicker /> */}
       {/* <HomeDatePicker /> */}
       {/* <HomeSwitch /> */}

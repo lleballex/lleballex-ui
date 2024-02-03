@@ -1,6 +1,17 @@
-import { Key, MouseEventHandler, ReactNode, useEffect, useState } from 'react'
+import {
+  Key,
+  MouseEventHandler,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { useControlValue } from '@/lib/use-control-value'
 import classNames from 'classnames'
-import Input from '@/components/ui/Input'
+import BaseInput from '@/components/ui/BaseInput'
+import BaseButton from '@/components/ui/BaseButton'
+import ControlContainer from '@/components/ui/ControlContainer'
 import WithPopover from '@/components/ui/WithPopover'
 import Sandwich from '@/components/ui/Sandwich'
 import Icon from '@/components/ui/Icon'
@@ -11,91 +22,82 @@ interface Item<ItemValue> {
   value: ItemValue
 }
 
+type Value<IsMultiple> = IsMultiple extends true ? Key[] : Key
+
 interface Props<ItemValue, IsMultiple extends boolean> {
   className?: string
-  items?: Item<ItemValue>[]
-  renderItem?: (item: Item<ItemValue>) => ReactNode
-  filterItem?: (item: Item<ItemValue>, query: string) => boolean
+  label?: string
+  postscript?: string
+  error?: string
+  placeholder?: string
   multiple?: IsMultiple
   clearable?: boolean
   inputtable?: boolean
-  label?: string
-  placeholder?: string
-  postscript?: string
-  error?: string
-  value?: IsMultiple extends true ? Key[] : Key
-  onChange?: (val: IsMultiple extends true ? Key[] : Key) => void
+  items?: Item<ItemValue>[]
+  value?: Value<IsMultiple>
+  onChange?: (val: Value<IsMultiple>) => void
+  renderItem?: (item: Item<ItemValue>) => ReactNode
+  filterItem?: (item: Item<ItemValue>, query: string) => boolean
+  onFocus?: any
+  onBlur?: any
 }
 
 export default function Select<
-  ItemValue = any,
+  ItemValue = unknown,
   IsMultiple extends boolean = false,
 >({
   className,
-  items = [],
-  renderItem,
-  filterItem,
-  multiple,
-  clearable,
-  inputtable,
   label,
-  placeholder,
   postscript,
   error,
+  placeholder,
+  multiple: isMultiple,
+  clearable: isClearable,
+  inputtable: isInputtable,
+  items = [],
   value: baseValue,
   onChange: baseOnChange,
+  renderItem,
+  filterItem,
+  onFocus,
+  onBlur,
 }: Props<ItemValue, IsMultiple>) {
   // TODO: ref - for react hook form
-  // TODO: disabled
-  // TODO: add default placement
+  // TODO: accessabilty
+  // TODO: add extra method to transform value for input
+  // TODO: after dismiss input might be still focused
 
-  const [value, setValue] = useState<Key[]>(
-    Array.isArray(baseValue)
-      ? baseValue
-      : baseValue === undefined
-        ? []
-        : [baseValue],
-  )
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
-  useEffect(() => {
-    if (baseValue !== undefined) {
-      setValue(Array.isArray(baseValue) ? baseValue : [baseValue])
-    }
-  }, [baseValue])
-
-  const onChange = (val: Key[]) => {
-    if (baseOnChange || baseValue !== undefined) {
-      // TODO: fix typescript
-      //@ts-ignore
-      baseOnChange?.(multiple ? val : val[0])
-      if (baseValue === undefined) {
-        setValue(val)
-      }
-    } else {
-      setValue(val)
-    }
-  }
+  const { value, onChange } = useControlValue({
+    baseValue,
+    baseOnChange: baseOnChange as any,
+    transformBaseValue: (val: Key | Key[] | undefined) =>
+      Array.isArray(val) ? val : val === undefined ? [] : [val],
+    transformValue: (val) => (isMultiple ? val : val[0]),
+  })
 
   const [isActive, setIsActive] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const [query, setQuery] = useState<null | string>(null)
 
   useEffect(() => {
-    if (!isActive && query) {
+    if (!isActive && query !== null) {
       setQuery(null)
     }
   }, [isActive])
 
-  const toggleIsActive: MouseEventHandler = (e) => {
+  const onInputClick: MouseEventHandler = (e) => {
     if (!isActive) {
       setIsActive(true)
     } else if ((e.target as Element).tagName !== 'INPUT') {
       setIsActive(false)
+      inputRef.current?.blur()
     }
   }
 
   const toggleItem = (item: Item<ItemValue>) => {
-    if (multiple) {
+    if (isMultiple) {
       const idx = value.indexOf(item.key)
       if (idx === -1) {
         onChange([...value, item.key])
@@ -103,7 +105,7 @@ export default function Select<
         onChange([...value.slice(0, idx), ...value.slice(idx + 1)])
       }
     } else {
-      if (clearable && value.includes(item.key)) {
+      if (isClearable && value.includes(item.key)) {
         onChange([])
       } else {
         onChange([item.key])
@@ -112,106 +114,124 @@ export default function Select<
     }
   }
 
-  const clear: MouseEventHandler = (e) => {
-    e.stopPropagation()
+  const clear = () => {
     onChange([])
     setIsActive(false)
   }
 
-  const getInputValue = (): any => {
-    if (!value.length) {
+  const renderedItems = useMemo(() => {
+    const filteredItems = items.filter(
+      (item) =>
+        !isInputtable ||
+        query === null ||
+        (filterItem?.(item, query) ??
+          item.value?.toString().toLowerCase().includes(query.toLowerCase())),
+    )
+
+    if (!filteredItems.length) {
+      return <p className={styles.itemsNothing}>Ничего не найдено</p>
+    }
+
+    return filteredItems
+      .sort((a, b) =>
+        !isMultiple ? 0 : +value.includes(b.key) - +value.includes(a.key),
+      )
+      .map((item) => (
+        <div
+          className={classNames(styles.item, {
+            [styles.active]: value.includes(item.key),
+          })}
+          key={item.key}
+          onClick={() => toggleItem(item)}
+        >
+          {renderItem?.(item) ?? String(item.value)}
+        </div>
+      ))
+  }, [items, isInputtable, query, value, renderItem, filterItem])
+
+  const inputValue = useMemo(() => {
+    if (query || isFocused) {
+      return query
+    } else if (!value.length) {
       return null
     } else if (value.length > 1) {
       return `Выбрано: ${value.length}`
     } else {
       const item = items.find((i) => i.key === value[0])
-      // TODO: add renderInputValue
-      return item ? item.value : null
+
+      if (!item) {
+        return null
+      } else if (
+        typeof item.value === 'number' ||
+        typeof item.value === 'string'
+      ) {
+        return item.value.toString()
+      } else {
+        return 'Выбрано'
+      }
     }
-  }
+  }, [query, isFocused, value, items])
 
   return (
-    <Input
-      className={classNames(styles.container, className, {
-        [styles.inputtable]: inputtable,
-        [styles.error]: !!error,
-      })}
-      inputContainerClassName={styles.inputContainer}
-      inputClassName={styles.input}
+    <ControlContainer
+      className={className}
       label={label}
-      placeholder={placeholder}
       postscript={postscript}
       error={error}
-      blocked={!inputtable}
-      value={inputtable && (query || isFocused) ? query : getInputValue()}
-      type="text"
-      onChange={setQuery}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      postfix={
-        <Sandwich
-          items={[
-            {
-              key: 'false',
-              value: (
-                <Icon
-                  className={styles.chevronIcon}
-                  icon="chevronDown"
-                  hoverable
-                />
-              ),
-            },
-            {
-              key: 'true',
-              value: <Icon icon="times" onClick={clear} hoverable />,
-            },
-          ]}
-          activeKey={!clearable ? 'false' : (!!value.length).toString()}
-        />
-      }
-      inputContainer={({ props, component }) => (
-        <WithPopover
-          className={styles.popoverContainer}
-          referenceProps={{
-            ...props,
-            onClick: (e) => {
-              toggleIsActive(e)
-              props.onClick?.(e)
-            },
-          }}
-          reference={component}
-          popoverProps={{ className: styles.items }}
-          popover={items
-            .filter(
-              (item) =>
-                !inputtable ||
-                query === null ||
-                (filterItem?.(item, query) ??
-                  item.value
-                    ?.toString()
-                    .toLowerCase()
-                    .includes(query.toLowerCase())),
-            )
-            .sort((a, b) =>
-              !multiple ? 0 : +value.includes(b.key) - +value.includes(a.key),
-            )
-            .map((item) => (
-              <div
-                className={classNames(styles.item, {
-                  [styles.active]: value.includes(item.key),
-                })}
-                key={item.key}
-                onClick={() => toggleItem(item)}
-              >
-                {/* TODO: fix typescript */}
-                {renderItem?.(item) ?? (item.value as any)}
-              </div>
-            ))}
-          isActive={isActive}
-          setIsActive={setIsActive}
-          noClick
-        />
-      )}
-    />
+    >
+      <WithPopover
+        className={classNames(styles.withPopover, {
+          [styles.inputtable]: isInputtable,
+          [styles.error]: !!error,
+        })}
+        popoverClassName={styles.items}
+        reference={
+          <BaseInput
+            className={styles.inputContainer}
+            inputClassName={styles.input}
+            ref={inputRef}
+            onClick={onInputClick}
+            error={!!error}
+            placeholder={placeholder}
+            blocked={!isInputtable}
+            value={inputValue}
+            onChange={setQuery}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            postfix={
+              <Sandwich
+                items={[
+                  {
+                    key: 'false',
+                    value: (
+                      <BaseButton hoverable>
+                        <Icon
+                          className={styles.chevronIcon}
+                          icon="chevronDown"
+                        />
+                      </BaseButton>
+                    ),
+                  },
+                  {
+                    key: 'true',
+                    value: (
+                      <BaseButton onClick={clear} stopPropagation hoverable>
+                        <Icon icon="times" />
+                      </BaseButton>
+                    ),
+                  },
+                ]}
+                activeKey={!isClearable ? 'false' : (!!value.length).toString()}
+              />
+            }
+          />
+        }
+        popover={renderedItems}
+        placement="bottom"
+        isActive={isActive}
+        setIsActive={setIsActive}
+        noClick
+      />
+    </ControlContainer>
   )
 }
