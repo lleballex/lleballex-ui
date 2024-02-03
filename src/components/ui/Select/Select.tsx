@@ -65,7 +65,6 @@ export default function Select<
   // TODO: ref - for react hook form
   // TODO: accessabilty
   // TODO: add extra method to transform value for input
-  // TODO: after dismiss input might be still focused
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -82,8 +81,9 @@ export default function Select<
   const [query, setQuery] = useState<null | string>(null)
 
   useEffect(() => {
-    if (!isActive && query !== null) {
+    if (!isActive) {
       setQuery(null)
+      inputRef.current?.blur()
     }
   }, [isActive])
 
