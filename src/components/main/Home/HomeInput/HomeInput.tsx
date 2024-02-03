@@ -7,21 +7,22 @@ export default function HomeInput() {
     <div className={styles.container}>
       <h2>Inputs</h2>
       <div className={styles.inputs}>
-        <Input placeholder="Default input" />
-        <Input label="Label" placeholder="Placeholder" postscript="Postfix" />
+        <Input />
         <Input
           label="Label"
-          placeholder="Placeholder"
-          postscript="Postfix"
+          postscript="Postscript"
+          placeholder="Type something"
+        />
+        <Input
+          label="Label"
+          postscript="Postscript"
+          placeholder="Type something"
           prefix={<Icon icon="times" />}
-          postfix={<Icon icon="times" hoverable />}
+          postfix={
+            <Icon icon="times" onClick={(e) => e.stopPropagation()} hoverable />
+          }
         />
-        <Input
-          label="Label"
-          placeholder="Placeholder"
-          error="Error"
-          type="number"
-        />
+        <Input label="Label" placeholder="Type something" error="Error" />
       </div>
     </div>
   )

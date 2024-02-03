@@ -2,27 +2,6 @@
 
 .container {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-}
-
-.label {
-  @include paragraph-3;
-}
-
-.postscript {
-  @include caption-1;
-
-  color: $gray-3;
-
-  &.error {
-    color: $red;
-  }
-}
-
-.inputContainer {
-  display: flex;
   align-items: flex-start;
   gap: 8px;
   padding: 10px 12px;
@@ -31,7 +10,7 @@
   cursor: text;
   transition: $transition;
 
-  .container.error & {
+  &.error {
     border-color: $red;
   }
 }
@@ -44,9 +23,4 @@
   flex-grow: 1;
   background: none;
   width: 100%;
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
 }
