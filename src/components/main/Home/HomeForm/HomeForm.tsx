@@ -10,6 +10,7 @@ import RadioGroup from '@/components/ui/RadioGroup'
 import Select from '@/components/ui/Select'
 import TimePicker from '@/components/ui/TimePicker'
 import DatePicker from '@/components/ui/DatePicker'
+import Slider from '@/components/ui/Slider'
 import styles from './HomeForm.module.scss'
 
 interface Form {
@@ -21,6 +22,7 @@ interface Form {
   hasChildren: boolean
   numberOfHands: number
   policyAccepted: boolean
+  numberOfFingers: number
 }
 
 export default function HomeForm() {
@@ -121,6 +123,19 @@ export default function HomeForm() {
               { key: 1, value: 'One hand' },
               { key: 2, value: 'Two hands' },
             ]}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="numberOfFingers"
+        rules={{ required: true }}
+        render={({ field, fieldState }) => (
+          <Slider
+            {...field}
+            error={fieldState.error}
+            label="Number of fingers"
+            max={30}
           />
         )}
       />

@@ -1,60 +1,55 @@
 import { useEffect, useState } from 'react'
-import { getFormError } from '@/lib/get-form-error'
+import { FormError } from '@/lib/form-error'
 import classNames from 'classnames'
 import BaseSlider from 'react-slider'
+import ControlContainer from '@/components/ui/ControlContainer'
 import styles from './Slider.module.scss'
+import { useControlValue } from '@/lib/control-value'
 
 interface Props<Value extends number | number[]> {
-  value?: Value
-  onChange?: (val: Value) => void
+  className?: string
+  label?: string
+  postscript?: string
+  error?: FormError
   min?: number
   max?: number
   step?: number
-  error?: string
+  value?: Value
+  onChange?: (val: Value) => void
 }
 
 export default function Slider<Value extends number | number[] = number>({
+  className,
+  label,
+  postscript,
+  error,
+  min = 0,
+  max,
+  step = 1,
   value: baseValue,
   onChange: baseOnChange,
-  min,
-  max,
-  step,
-  error,
 }: Props<Value>) {
   // TODO: ref - for react hook form
-  // TODO: disabled
-  // TODO: label
+  // TODO: accessibility
+  // TODO: default value for multiple marks
 
-  const [value, setValue] = useState<number[]>(
-    baseValue === undefined
-      ? []
-      : Array.isArray(baseValue)
-        ? baseValue
-        : [baseValue],
-  )
-
-  useEffect(() => {
-    if (baseValue !== undefined) {
-      setValue(Array.isArray(baseValue) ? baseValue : [baseValue])
-    }
-  }, [baseValue])
-
-  const onChange = (val: number[] | number) => {
-    if (baseOnChange || baseValue !== undefined) {
-      // TODO: fix ts
-      // @ts-ignore
-      baseOnChange?.(val)
-
-      if (baseValue === undefined) {
-        setValue(Array.isArray(val) ? val : [val])
-      }
-    } else {
-      setValue(Array.isArray(val) ? val : [val])
-    }
-  }
+  const { value, onChange } = useControlValue<number[], number | number[]>({
+    baseValue,
+    baseOnChange: baseOnChange as any,
+    transformBaseValue: (val) =>
+      Array.isArray(val) ? val : val === undefined ? [min] : [val],
+    transformValue: (val) => (val.length === 1 ? val[0] : val),
+  })
 
   return (
-    <div className={styles.container}>
+    <ControlContainer
+      className={classNames(className, styles.container, {
+        [styles.error]: error,
+      })}
+      label={label}
+      postscript={postscript}
+      error={error}
+    >
       <BaseSlider
         className={classNames(styles.slider, {
           [styles.multi]: value.length > 1,
@@ -84,7 +79,6 @@ export default function Slider<Value extends number | number[] = number>({
         minDistance={1}
         pearling
       />
-      {error && <p className={styles.error}>{getFormError(error)}</p>}
-    </div>
+    </ControlContainer>
   )
 }

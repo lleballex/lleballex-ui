@@ -35,6 +35,7 @@ export default function DatePicker({
   onChange: baseOnChange,
 }: Props) {
   // TODO: accessibility, localization
+  // TODO: shift - floating middleware
 
   const [isActive, setIsActive] = useState(false)
 

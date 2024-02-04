@@ -1,14 +1,7 @@
 @import '@/assets/css/config';
 
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-}
-
 .slider {
-  height: 40px;
+  height: 39px;
   width: 100%;
 }
 
@@ -21,12 +14,20 @@
   .slider.multi & {
     &:not(.first):not(.last) {
       background: $gray-3;
+
+      .container.error & {
+        background: $red;
+      }
     }
   }
 
   .slider:not(.multi) & {
     &.first {
       background: $gray-3;
+
+      .container.error & {
+        background: $red;
+      }
     }
   }
 }
@@ -48,9 +49,8 @@
   background: $gray-3;
   border-radius: 50%;
   cursor: pointer;
-}
 
-.error {
-  @include caption-1;
-  color: $red;
+  .container.error & {
+    background: $red;
+  }
 }
