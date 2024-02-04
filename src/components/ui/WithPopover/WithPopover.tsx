@@ -10,7 +10,7 @@ import {
   Placement,
   UseFloatingOptions,
 } from '@floating-ui/react'
-import { useControlValue } from '@/lib/use-control-value'
+import { useControlValue } from '@/lib/control-value'
 import { Site } from '@/config/site'
 import classNames from 'classnames'
 import styles from './WithPopover.module.scss'
@@ -41,6 +41,7 @@ export default function WithPopover({
   setIsActive: baseSetIsActive,
 }: Props) {
   // TODO: more props - placement, middlewares
+  // TODO: remove use control value
 
   const { value: isActive, onChange: setIsActive } = useControlValue({
     baseValue: baseIsActive,

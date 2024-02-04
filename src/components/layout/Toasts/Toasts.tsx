@@ -1,5 +1,5 @@
 import { useToasts } from '@/lib/toasts'
-import { useMountArrayTransition } from '@/lib/use-mount-array-transition'
+import { useMountArrayTransition } from '@/lib/mount-array-transition'
 import classNames from 'classnames'
 import Icon from '@/components/ui/Icon'
 import BaseButton from '@/components/ui/BaseButton'

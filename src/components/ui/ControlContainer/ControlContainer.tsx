@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { getFormError } from '@/lib/get-form-error'
+import { useFormError, FormError } from '@/lib/form-error'
 import classNames from 'classnames'
 import MountTransition from '@/components/ui/MountTransition'
 import styles from './ControlContainer.module.scss'
@@ -9,7 +9,7 @@ export interface ControlContainerProps {
   controlId?: string
   label?: string
   postscript?: string
-  error?: string
+  error?: FormError
   children?: ReactNode
 }
 
@@ -21,6 +21,8 @@ export default function ControlContainer({
   error,
   children,
 }: ControlContainerProps) {
+  const errorMsg = useFormError(error)
+
   return (
     <section className={classNames(styles.container, className)}>
       {label && (
@@ -30,9 +32,9 @@ export default function ControlContainer({
       )}
       {children}
       <MountTransition gap>
-        {error && (
+        {errorMsg && (
           <p className={classNames(styles.postscript, styles.error)}>
-            {getFormError(error)}
+            {errorMsg}
           </p>
         )}
       </MountTransition>

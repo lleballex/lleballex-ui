@@ -8,7 +8,8 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useControlValue } from '@/lib/use-control-value'
+import { useControlValue } from '@/lib/control-value'
+import { FormError } from '@/lib/form-error'
 import classNames from 'classnames'
 import BaseInput from '@/components/ui/BaseInput'
 import BaseButton from '@/components/ui/BaseButton'
@@ -29,7 +30,7 @@ interface Props<ItemValue, IsMultiple extends boolean> {
   className?: string
   label?: string
   postscript?: string
-  error?: string
+  error?: FormError
   placeholder?: string
   multiple?: IsMultiple
   clearable?: boolean
@@ -66,6 +67,7 @@ export default function Select<
   // TODO: ref - for react hook form
   // TODO: accessabilty
   // TODO: add extra method to transform value for input
+  // TODO: improve user experience (text in input, clise select - all values quckly changes)
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 

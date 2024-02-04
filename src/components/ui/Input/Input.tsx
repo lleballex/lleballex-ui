@@ -1,4 +1,5 @@
 import { ForwardedRef, ReactNode, Ref, forwardRef, useId, useMemo } from 'react'
+import { FormError } from '@/lib/form-error'
 import BaseInput, { BaseInputProps, InputType } from '@/components/ui/BaseInput'
 import ControlContainer from '@/components/ui/ControlContainer'
 
@@ -7,7 +8,7 @@ interface Props<Type extends InputType>
   className?: string
   label?: string
   postscript?: string
-  error?: string
+  error?: FormError
 }
 
 const Input = <Type extends InputType = 'text'>(

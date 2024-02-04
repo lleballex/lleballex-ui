@@ -59,7 +59,7 @@ export default function HomeForm() {
         name="name"
         rules={{ required: true }}
         render={({ field, fieldState }) => (
-          <Input {...field} error={fieldState.error?.type} label="Name" />
+          <Input {...field} error={fieldState.error} label="Name" />
         )}
       />
       <Controller
@@ -70,7 +70,7 @@ export default function HomeForm() {
           <Input
             {...field}
             type="number"
-            error={fieldState.error?.type}
+            error={fieldState.error}
             label="Age"
           />
         )}
@@ -82,7 +82,7 @@ export default function HomeForm() {
         render={({ field, fieldState }) => (
           <Select
             {...field}
-            error={fieldState.error?.type}
+            error={fieldState.error}
             label="Favourite colors"
             items={[
               { key: 'red', value: 'Red' },

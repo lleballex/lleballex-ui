@@ -41,7 +41,7 @@ export default function HomeToast() {
         control={control}
         name="title"
         render={({ field, fieldState }) => (
-          <Input {...field} error={fieldState.error?.type} label="Title" />
+          <Input {...field} error={fieldState.error} label="Title" />
         )}
       />
       <Controller
@@ -49,7 +49,7 @@ export default function HomeToast() {
         name="content"
         rules={{ required: true }}
         render={({ field, fieldState }) => (
-          <Input {...field} error={fieldState.error?.type} label="Content*" />
+          <Input {...field} error={fieldState.error} label="Content*" />
         )}
       />
       <Controller
@@ -59,7 +59,7 @@ export default function HomeToast() {
         render={({ field, fieldState }) => (
           <Select
             {...field}
-            error={fieldState.error?.type}
+            error={fieldState.error}
             label="Type*"
             items={[
               { key: 'info', value: 'Info' },
