@@ -4,7 +4,7 @@ import { useToasts } from '@/lib/toasts'
 // import { Moment } from 'moment'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
-// import Switch from '@/components/ui/Switch'
+import Switch from '@/components/ui/Switch'
 import Checkbox from '@/components/ui/Checkbox'
 import RadioGroup from '@/components/ui/RadioGroup'
 import Select from '@/components/ui/Select'
@@ -16,7 +16,7 @@ interface Form {
   age: number
   // birthTime: Moment
   colors: string[]
-  // hasChildren: boolean
+  hasChildren: boolean
   numberOfHands: number
   policyAccepted: boolean
 }
@@ -97,12 +97,16 @@ export default function HomeForm() {
           />
         )}
       />
+ */}
       <Controller
         control={control}
         name="hasChildren"
-        render={({ field }) => <Switch {...field}>With children</Switch>}
+        render={({ field, fieldState }) => (
+          <Switch {...field} error={fieldState.error}>
+            With children
+          </Switch>
+        )}
       />
- */}
       <Controller
         control={control}
         name="numberOfHands"

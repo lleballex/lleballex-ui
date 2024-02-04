@@ -7,9 +7,8 @@ export default function HomeSwitch() {
       <h2>Switches</h2>
       <div className={styles.switches}>
         <Switch />
-        *switch with error*
-        <Switch>Some words</Switch>
-        *switch with content with error*
+        <Switch postscript="Postscript">Label</Switch>
+        <Switch error="Error">Label</Switch>
       </div>
     </div>
   )

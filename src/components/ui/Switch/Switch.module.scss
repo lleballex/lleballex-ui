@@ -1,6 +1,10 @@
 @import '@/assets/css/config';
 
 .container {
+  width: auto;
+}
+
+.main {
   @include paragraph-2;
 
   display: flex;
@@ -32,11 +36,27 @@
     transition: $transition;
   }
 
-  &.active {
+  .container.active & {
     background: $gray-2;
 
     &:after {
       left: calc(100% - 3px - 11px);
+      background: $white;
+    }
+  }
+
+  .container.error & {
+    border-color: $red;
+
+    &:after {
+      background: $red;
+    }
+  }
+
+  .container.error.active & {
+    background: $red;
+
+    &:after {
       background: $white;
     }
   }

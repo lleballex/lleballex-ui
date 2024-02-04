@@ -1,54 +1,49 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
+import { FormError } from '@/lib/form-error'
+import { useControlValue } from '@/lib/control-value'
 import classNames from 'classnames'
+import ControlContainer from '@/components/ui/ControlContainer'
 import styles from './Switch.module.scss'
 
 interface Props {
   className?: string
+  postscript?: string
+  error?: FormError
   value?: boolean
-  onChange?: (val: boolean) => void
   children?: ReactNode
+  onChange?: (val: boolean) => void
 }
 
 export default function Switch({
   className,
+  postscript,
+  error,
   value: baseValue,
   onChange: baseOnChange,
   children,
 }: Props) {
   // TODO: ref - for react hook form
-  // TODO: disabled
-  // TODO: error
 
-  const [value, setValue] = useState(baseValue ?? false)
-
-  useEffect(() => {
-    if (baseValue !== undefined && baseValue !== value) {
-      setValue(baseValue)
-    }
-  }, [baseValue])
-
-  const onChange = (val: boolean) => {
-    if (baseValue !== undefined || baseOnChange) {
-      baseOnChange?.(val)
-      if (baseValue === undefined) {
-        setValue(val)
-      }
-    } else {
-      setValue(val)
-    }
-  }
+  const { value, onChange } = useControlValue({
+    baseValue,
+    baseOnChange,
+    transformBaseValue: (val) => val ?? false,
+    transformValue: (val) => val,
+  })
 
   return (
-    <div
-      className={classNames(styles.container, className)}
-      onClick={() => onChange(!value)}
+    <ControlContainer
+      className={classNames(className, styles.container, {
+        [styles.active]: value,
+        [styles.error]: error,
+      })}
+      postscript={postscript}
+      error={error}
     >
-      {children}
-      <div
-        className={classNames(styles.switch, {
-          [styles.active]: value,
-        })}
-      />
-    </div>
+      <div className={styles.main} onClick={() => onChange(!value)}>
+        {children}
+        <div className={styles.switch} />
+      </div>
+    </ControlContainer>
   )
 }
