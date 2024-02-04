@@ -1,38 +1,47 @@
-import { ReactNode, useEffect, useState } from 'react'
+import {
+  ForwardedRef,
+  ReactNode,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react'
 import { Site } from '@/config/site'
+import { CSSTransition } from 'react-transition-group'
 import classNames from 'classnames'
 import styles from './MountTransition.module.scss'
 
 interface Props {
   className?: string
+  id?: string
   gap?: boolean
   horizontal?: boolean
+  noAnimation?: boolean
   children?: ReactNode
 }
 
 export default function MountTransition({
   className,
+  id,
   gap: hasGap,
   horizontal: isHorizontal,
+  noAnimation,
   children,
 }: Props) {
-  // TODO: use react transition group
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   const [prevChildren, setPrevChildren] = useState<null | ReactNode>(null)
-  const [state, setState] = useState<'active' | 'inactive'>('inactive')
+  const [isShowed, setIsShowed] = useState(false)
 
   useEffect(() => {
-    if (children && !prevChildren) {
+    if (children && !isShowed) {
+      setIsShowed(true)
       setPrevChildren(children)
-      setTimeout(() => {
-        setState('active')
-      }, 50)
-    } else if (!children && prevChildren) {
-      setState('inactive')
-      setTimeout(() => {
-        setPrevChildren(null)
-      }, Site.transition.duration)
-    } else if (children) {
+    } else if (!children && isShowed) {
+      setIsShowed(false)
+    } else if (children && isShowed) {
       setPrevChildren(children)
     }
   }, [children])
@@ -42,15 +51,25 @@ export default function MountTransition({
   }
 
   return (
-    <div
-      className={classNames(styles.container, className, {
-        [styles.gap]: hasGap,
-        [styles.horizontal]: isHorizontal,
-      })}
-      data-state={state}
+    <CSSTransition
+      nodeRef={containerRef}
+      timeout={Site.transition.duration}
+      in={isShowed}
+      onExited={() => setPrevChildren(false)}
+      appear
     >
-      {/* we need another wrapper because children might have width or height properties */}
-      <div>{prevChildren}</div>
-    </div>
+      <div
+        className={classNames(styles.container, className, {
+          [styles.gap]: hasGap,
+          [styles.horizontal]: isHorizontal,
+          [styles.noAnimation]: noAnimation,
+        })}
+        ref={containerRef}
+        id={id}
+      >
+        {/* we need another wrapper because children might have width or height properties */}
+        {noAnimation ? prevChildren : <div>{prevChildren}</div>}
+      </div>
+    </CSSTransition>
   )
 }

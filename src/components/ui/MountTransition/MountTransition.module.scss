@@ -1,40 +1,40 @@
 @import '@/assets/css/config';
 
-.container {
+.container:not(.noAnimation) {
   display: grid;
+  overflow: hidden;
   opacity: 0;
   grid-template-rows: 0fr;
   grid-template-columns: 0fr;
-  overflow: hidden;
   transition: $transition;
 
-  &[data-state='active'] {
-    opacity: 1;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr;
-  }
-
-  &:not(.horizontal) {
-    &.gap {
+  &.gap {
+    &:not(.horizontal) {
       margin-top: calc(var(--gap) / (-2));
       margin-bottom: calc(var(--gap) / (-2));
     }
 
-    &[data-state='active'] {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  &.horizontal {
-    &.gap {
+    &.horizontal {
       margin-left: calc(var(--gap) / (-2));
       margin-right: calc(var(--gap) / (-2));
     }
+  }
 
-    &[data-state='active'] {
-      margin-top: 0;
-      margin-bottom: 0;
+  &:global:is(.enter-done, .enter-active, .appear-active) {
+    opacity: 1;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+
+    &.gap {
+      &:not(.horizontal) {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      &.horizontal {
+        margin-left: 0;
+        margin-right: 0;
+      }
     }
   }
 }

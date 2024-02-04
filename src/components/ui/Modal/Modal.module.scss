@@ -1,11 +1,5 @@
 @import '@/assets/css/config';
 
-@mixin active {
-  .container[data-status='open'] & {
-    @content;
-  }
-}
-
 .container {
   display: flex;
   align-items: center;
@@ -13,18 +7,11 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  backdrop-filter: blur(2px);
-  background: rgba(0, 0, 0, 0.5);
+  transition: $transition;
 
-  &[data-status='initial'],
-  &[data-status='close'] {
-    backdrop-filter: none;
-    background: none;
-  }
-
-  &[data-status='open'],
-  &[data-status='close'] {
-    transition: $transition;
+  &:global(:is(.enter-done, .enter-active, .appear-active)) {
+    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -46,7 +33,7 @@
   transform: scale(0);
   transition: $transition;
 
-  @include active {
+  .container:global(:is(.enter-done, .enter-active, .appear-active)) & {
     transform: none;
   }
 }

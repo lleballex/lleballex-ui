@@ -82,3 +82,11 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+#app-container {
+  transition: $transition;
+
+  body:has(.modal:is(.enter-done, .enter-active, .appear-active)) & {
+    transform: scale(0.95);
+  }
+}

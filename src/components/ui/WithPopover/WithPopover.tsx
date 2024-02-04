@@ -78,7 +78,7 @@ export default function WithPopover({
       <div
         className={classNames(referenceClassName, styles.main)}
         ref={refs.setReference}
-        {...getReferenceProps()}
+        {...getReferenceProps({ tabIndex: -1 })}
       >
         {reference}
       </div>

@@ -1,5 +1,6 @@
 import {
   Key,
+  KeyboardEventHandler,
   MouseEventHandler,
   ReactNode,
   useEffect,
@@ -93,6 +94,12 @@ export default function Select<
     } else if ((e.target as Element).tagName !== 'INPUT') {
       setIsActive(false)
       inputRef.current?.blur()
+    }
+  }
+
+  const onInputKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.code === 'Escape') {
+      setIsActive(false)
     }
   }
 
@@ -196,6 +203,7 @@ export default function Select<
             blocked={!isInputtable}
             value={inputValue}
             onChange={setQuery}
+            onKeyPress={onInputKeyPress}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             postfix={

@@ -9,6 +9,7 @@ import {
   ForwardedRef,
   useImperativeHandle,
   Ref,
+  KeyboardEventHandler,
 } from 'react'
 import classNames from 'classnames'
 import styles from './BaseInput.module.scss'
@@ -39,6 +40,7 @@ export interface BaseInputProps<Type extends InputType> {
   onClick?: MouseEventHandler<HTMLDivElement>
   onFocus?: FocusEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
+  onKeyPress?: KeyboardEventHandler<HTMLInputElement>
 }
 
 /*
@@ -65,6 +67,7 @@ const BaseInput = <Type extends InputType = 'text'>(
     onClick: baseOnClick,
     onFocus,
     onBlur,
+    onKeyPress: baseOnKeyPress,
   }: BaseInputProps<Type>,
   ref: ForwardedRef<HTMLInputElement>,
 ) => {
@@ -81,6 +84,14 @@ const BaseInput = <Type extends InputType = 'text'>(
     } else {
       baseOnChange?.(val as Type extends 'number' ? number : string)
     }
+  }
+
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.code === 'Escape') {
+      ;(e.target as HTMLInputElement).blur()
+      e.stopPropagation()
+    }
+    baseOnKeyPress?.(e)
   }
 
   const onClick: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -135,6 +146,7 @@ const BaseInput = <Type extends InputType = 'text'>(
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        onKeyDown={onKeyDown}
         disabled={isBlocked}
       />
       {postfix}

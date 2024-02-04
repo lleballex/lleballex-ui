@@ -7,12 +7,14 @@
 
 .main {
   width: 100%;
+  outline: none;
 }
 
 .popover {
   z-index: 1;
   overflow: hidden;
   max-height: 300px;
+  outline: none;
 
   .container[data-status='initial'] &,
   .container[data-status='close'] & {
