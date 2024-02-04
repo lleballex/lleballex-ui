@@ -8,11 +8,8 @@ export default function HomeRadio() {
       <h2>Radios</h2>
       <div className={styles.radios}>
         <Radio />
-        <Radio error="Error" />
-        <Radio nullable>Nullable</Radio>
-        <Radio nullable error="Error">
-          Nullable
-        </Radio>
+        <Radio postscript="Postscript">Label</Radio>
+        <Radio error="Error">Label</Radio>
         <RadioGroup
           items={[
             { key: 'first', value: 'First element' },
@@ -20,13 +17,21 @@ export default function HomeRadio() {
           ]}
         />
         <RadioGroup
+          label="Label"
+          postscript="Postscript"
           items={[
-            { key: 'first', value: 'First element nullable' },
-            { key: 'second', value: 'Second element nullable' },
+            { key: 'first', value: 'First element' },
+            { key: 'second', value: 'Second element' },
           ]}
-          nullable
         />
-        *radio group with error*
+        <RadioGroup
+          label="Label"
+          error="Error"
+          items={[
+            { key: 'first', value: 'First element' },
+            { key: 'second', value: 'Second element' },
+          ]}
+        />
       </div>
     </div>
   )

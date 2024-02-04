@@ -6,7 +6,7 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 // import Switch from '@/components/ui/Switch'
 import Checkbox from '@/components/ui/Checkbox'
-// import RadioGroup from '@/components/ui/RadioGroup'
+import RadioGroup from '@/components/ui/RadioGroup'
 import Select from '@/components/ui/Select'
 // import TimePicker from '@/components/ui/TimePicker'
 import styles from './HomeForm.module.scss'
@@ -17,7 +17,7 @@ interface Form {
   // birthTime: Moment
   colors: string[]
   // hasChildren: boolean
-  // numberOfHands: number
+  numberOfHands: number
   policyAccepted: boolean
 }
 
@@ -27,15 +27,7 @@ export default function HomeForm() {
     handleSubmit,
     formState: { isValid },
     reset,
-  } = useForm<Form>({
-    defaultValues: {
-      // name: '',
-      // age: NaN,
-      // hasChildren: false,
-      // numberOfHands: 0,
-      // policyAccepted: false,
-    },
-  })
+  } = useForm<Form>()
 
   const toasts = useToasts()
 
@@ -110,13 +102,16 @@ export default function HomeForm() {
         name="hasChildren"
         render={({ field }) => <Switch {...field}>With children</Switch>}
       />
+ */}
       <Controller
         control={control}
         name="numberOfHands"
         rules={{ required: true }}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <RadioGroup
             {...field}
+            error={fieldState.error}
+            label="Number of hands"
             items={[
               { key: 0, value: 'No hands' },
               { key: 1, value: 'One hand' },
@@ -125,7 +120,6 @@ export default function HomeForm() {
           />
         )}
       />
- */}
       <Controller
         control={control}
         name="policyAccepted"

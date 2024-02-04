@@ -114,7 +114,7 @@ export default function Select<
         onChange([...value.slice(0, idx), ...value.slice(idx + 1)])
       }
     } else {
-      if (isClearable && value.includes(item.key)) {
+      if (value.includes(item.key)) {
         onChange([])
       } else {
         onChange([item.key])

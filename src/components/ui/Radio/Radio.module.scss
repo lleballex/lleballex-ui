@@ -1,9 +1,7 @@
 @import '@/assets/css/config';
 
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  width: auto;
 }
 
 .main {
@@ -35,20 +33,15 @@
     transition: $transition;
   }
 
-  &.active:after {
+  .container.active &:after {
     opacity: 1;
   }
 
-  &.error {
+  .container.error & {
     border-color: $red;
 
     &:after {
       background: $red;
     }
   }
-}
-
-.error {
-  @include caption-1;
-  color: $red;
 }

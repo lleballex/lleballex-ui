@@ -1,61 +1,61 @@
-import { Key, ReactNode, useState, useEffect } from 'react'
+import { Key, ReactNode } from 'react'
+import { useControlValue } from '@/lib/control-value'
+import { FormError } from '@/lib/form-error'
 import classNames from 'classnames'
+import ControlContainer from '@/components/ui/ControlContainer'
 import Radio from '@/components/ui/Radio'
 import styles from './RadioGroup.module.scss'
 
 interface Props {
   className?: string
+  label?: string
+  postscript?: string
+  error?: FormError
   items?: {
     key: Key
     value: ReactNode
   }[]
-  nullable?: boolean
   value?: Key | null
   onChange?: (val: Key | null) => void
 }
 
 export default function RadioGroup({
   className,
+  label,
+  postscript,
+  error,
   items = [],
-  nullable,
   value: baseValue,
   onChange: baseOnChange,
 }: Props) {
   // TODO: ref - for react hook form
-  // TODO: error
-  // TODO: disabled
 
-  const [value, setValue] = useState<Key | null>(null)
-
-  useEffect(() => {
-    if (baseValue !== undefined) {
-      setValue(baseValue)
-    }
-  }, [baseValue])
-
-  const onChange = (val: Key | null) => {
-    if (baseValue !== undefined || baseOnChange) {
-      baseOnChange?.(val)
-      if (baseValue === undefined) {
-        setValue(val)
-      }
-    } else {
-      setValue(val)
-    }
-  }
+  const { value, onChange } = useControlValue({
+    baseValue,
+    baseOnChange,
+    transformBaseValue: (val) => val ?? null,
+    transformValue: (val) => val,
+  })
 
   return (
-    <div className={classNames(styles.container, className)}>
-      {items.map((item) => (
-        <Radio
-          key={item.key}
-          value={value === item.key}
-          onChange={(val) => onChange(val ? item.key : null)}
-          nullable={nullable}
-        >
-          {item.value}
-        </Radio>
-      ))}
-    </div>
+    <ControlContainer
+      className={classNames(className, styles.container)}
+      label={label}
+      postscript={postscript}
+      error={error}
+    >
+      <div className={styles.radios}>
+        {items.map((item) => (
+          <Radio
+            key={item.key}
+            value={value === item.key}
+            onChange={(val) => onChange(val ? item.key : null)}
+            error={!!error}
+          >
+            {item.value}
+          </Radio>
+        ))}
+      </div>
+    </ControlContainer>
   )
 }

@@ -1,61 +1,50 @@
-import { ReactNode, useEffect, useState } from 'react'
-import { getFormError } from '@/lib/get-form-error'
+import { ReactNode } from 'react'
+import { useControlValue } from '@/lib/control-value'
+import { FormError } from '@/lib/form-error'
 import classNames from 'classnames'
+import ControlContainer from '@/components/ui/ControlContainer'
+import BaseButton from '@/components/ui/BaseButton'
 import styles from './Radio.module.scss'
 
 interface Props {
   className?: string
-  children?: ReactNode
   value?: boolean
+  postscript?: string
+  error?: FormError | boolean
+  children?: ReactNode
   onChange?: (val: boolean) => void
-  nullable?: boolean
-  error?: string
 }
 
 export default function Radio({
   className,
-  children,
-  value,
-  onChange,
-  nullable,
+  value: baseValue,
+  postscript,
   error,
+  children,
+  onChange: baseOnChange,
 }: Props) {
   // TODO: ref - for react hook form
-  // TODO: disabled
 
-  const [isActive, setIsActive] = useState(false)
-
-  useEffect(() => {
-    if (value !== undefined && value !== isActive) {
-      setIsActive(value)
-    }
-  }, [value])
-
-  const toggle = () => {
-    if (nullable || !isActive) {
-      if (onChange || value !== undefined) {
-        onChange?.(!isActive)
-        if (value === undefined) {
-          setIsActive(!isActive)
-        }
-      } else {
-        setIsActive(!isActive)
-      }
-    }
-  }
+  const { value, onChange } = useControlValue({
+    baseValue,
+    baseOnChange,
+    transformBaseValue: (val) => val ?? false,
+    transformValue: (val) => val,
+  })
 
   return (
-    <div className={classNames(styles.container, className)} onClick={toggle}>
-      <div className={styles.main}>
-        <span
-          className={classNames(styles.radio, {
-            [styles.active]: isActive,
-            [styles.error]: !!error,
-          })}
-        />
+    <ControlContainer
+      className={classNames(className, styles.container, {
+        [styles.active]: value,
+        [styles.error]: error,
+      })}
+      postscript={postscript}
+      error={typeof error !== 'boolean' ? error : undefined}
+    >
+      <div className={styles.main} onClick={() => onChange(!value)}>
+        <BaseButton className={styles.radio} />
         {children}
       </div>
-      {error && <p className={styles.error}>{getFormError(error)}</p>}
-    </div>
+    </ControlContainer>
   )
 }

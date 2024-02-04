@@ -13,11 +13,7 @@ export default function HomeToast() {
     title: string
     content: string
     type: ToastType
-  }>({
-    defaultValues: {
-      type: 'info',
-    },
-  })
+  }>()
 
   const onSubmit = handleSubmit((data) => {
     switch (data.type) {
