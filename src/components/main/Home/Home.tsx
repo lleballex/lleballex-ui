@@ -4,7 +4,7 @@ import HomeSelect from './HomeSelect'
 // import HomeTimePicker from './HomeTimePicker'
 // import HomeDatePicker from './HomeDatePicker'
 // import HomeSwitch from './HomeSwitch'
-// import HomeCheckbox from './HomeCheckbox'
+import HomeCheckbox from './HomeCheckbox'
 // import HomeRadio from './HomeRadio'
 // import HomeSlider from './HomeSlider'
 import HomeModal from './HomeModal'
@@ -23,7 +23,7 @@ export default function Home() {
       {/* <HomeTimePicker /> */}
       {/* <HomeDatePicker /> */}
       {/* <HomeSwitch /> */}
-      {/* <HomeCheckbox /> */}
+      <HomeCheckbox />
       {/* <HomeRadio /> */}
       {/* <HomeSlider /> */}
       <HomeModal />

@@ -1,10 +1,16 @@
-import { Key, ReactNode, useEffect, useState } from 'react'
+import { Key, ReactNode } from 'react'
+import { useControlValue } from '@/lib/control-value'
+import { FormError } from '@/lib/form-error'
 import classNames from 'classnames'
+import ControlContainer from '@/components/ui/ControlContainer'
 import Checkbox from '@/components/ui/Checkbox'
 import styles from './CheckboxGroup.module.scss'
 
 interface Props {
   className?: string
+  label?: string
+  postscript?: string
+  error?: FormError
   items?: {
     key: Key
     value: ReactNode
@@ -15,56 +21,50 @@ interface Props {
 
 export default function CheckboxGroup({
   className,
+  label,
+  postscript,
+  error,
   items = [],
   value: baseValue,
   onChange: baseOnChange,
 }: Props) {
-  // TODO: error
   // TODo: ref - for react hook form
-  // TODO: disabled
 
-  const [value, setValue] = useState<Key[]>(baseValue ?? [])
-
-  useEffect(() => {
-    if (baseValue) {
-      setValue(baseValue)
-    }
-  }, [baseValue])
-
-  const onChange = (val: Key[]) => {
-    if (baseValue || baseOnChange) {
-      baseOnChange?.(val)
-      if (!baseValue) {
-        setValue(val)
-      }
-    } else {
-      setValue(val)
-    }
-  }
+  const { value, onChange } = useControlValue({
+    baseValue,
+    baseOnChange,
+    transformBaseValue: (val) => val ?? [],
+    transformValue: (val) => val,
+  })
 
   const toggleItem = (key: Key) => {
-    const idx = value?.indexOf(key) ?? -1
+    const idx = value.indexOf(key) ?? -1
     if (idx === -1) {
-      onChange([...(value ?? []), key])
+      onChange([...value, key])
     } else {
-      onChange([
-        ...(value?.slice(0, idx) ?? []),
-        ...(value?.slice(idx + 1) ?? []),
-      ])
+      onChange([...value.slice(0, idx), ...value.slice(idx + 1)])
     }
   }
 
   return (
-    <div className={classNames(styles.container, className)}>
-      {items.map((item) => (
-        <Checkbox
-          key={item.key}
-          value={value?.includes(item.key)}
-          onChange={() => toggleItem(item.key)}
-        >
-          {item.value}
-        </Checkbox>
-      ))}
-    </div>
+    <ControlContainer
+      className={classNames(className, styles.container)}
+      label={label}
+      postscript={postscript}
+      error={error}
+    >
+      <div className={styles.main}>
+        {items.map((item) => (
+          <Checkbox
+            key={item.key}
+            value={value?.includes(item.key)}
+            onChange={() => toggleItem(item.key)}
+            error={!!error}
+          >
+            {item.value}
+          </Checkbox>
+        ))}
+      </div>
+    </ControlContainer>
   )
 }

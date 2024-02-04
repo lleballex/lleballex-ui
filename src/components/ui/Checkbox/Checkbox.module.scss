@@ -1,9 +1,7 @@
 @import '@/assets/css/config';
 
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  width: auto;
 }
 
 .main {
@@ -25,22 +23,17 @@
   background: $white;
   transition: $transition;
 
-  &.error {
+  .main.error & {
     border-color: $red;
   }
 }
 
 .checkboxIcon {
-  .checkbox.error & {
+  .main.error & {
     stroke: $red;
   }
 
-  .checkbox:not(.active) & {
+  .main:not(.active) & {
     stroke: $white;
   }
-}
-
-.error {
-  @include caption-1;
-  color: $red;
 }

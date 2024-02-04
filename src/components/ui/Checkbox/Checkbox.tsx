@@ -1,60 +1,56 @@
-import { useState, ReactNode, useEffect } from 'react'
-import { getFormError } from '@/lib/get-form-error'
+import { ReactNode } from 'react'
+import { FormError } from '@/lib/form-error'
+import { useControlValue } from '@/lib/control-value'
 import classNames from 'classnames'
+import ControlContainer from '@/components/ui/ControlContainer'
+import BaseButton from '@/components/ui/BaseButton'
 import Icon from '@/components/ui/Icon'
 import styles from './Checkbox.module.scss'
 
 interface Props {
   className?: string
+  error?: FormError | boolean
+  postscript?: string
   value?: boolean
-  onChange?: (val: boolean) => void
   children?: ReactNode
-  error?: string
+  onChange?: (val: boolean) => void
 }
 
 export default function Checkbox({
   className,
-  value,
-  onChange,
-  children,
   error,
+  postscript,
+  value: baseValue,
+  children,
+  onChange: baseOnChange,
 }: Props) {
   // TODO: ref - for react hook form
-  // TODO: disabled
 
-  const [isActive, setIsActive] = useState(value ?? false)
-
-  useEffect(() => {
-    if (value !== undefined && value !== isActive) {
-      setIsActive(value)
-    }
-  }, [value])
-
-  const toggle = () => {
-    if (onChange || value !== undefined) {
-      onChange?.(!isActive)
-      if (value === undefined) {
-        setIsActive(!isActive)
-      }
-    } else {
-      setIsActive(!isActive)
-    }
-  }
+  const { value, onChange } = useControlValue({
+    baseValue,
+    baseOnChange,
+    transformBaseValue: (val) => val ?? false,
+    transformValue: (val) => val,
+  })
 
   return (
-    <div className={classNames(styles.container, className)} onClick={toggle}>
-      <div className={styles.main}>
-        <div
-          className={classNames(styles.checkbox, {
-            [styles.active]: isActive,
-            [styles.error]: !!error,
-          })}
-        >
+    <ControlContainer
+      className={classNames(className, styles.container)}
+      postscript={postscript}
+      error={typeof error !== 'boolean' ? error : undefined}
+    >
+      <div
+        className={classNames(styles.main, {
+          [styles.active]: value,
+          [styles.error]: !!error,
+        })}
+        onClick={() => onChange(!value)}
+      >
+        <BaseButton className={styles.checkbox}>
           <Icon className={styles.checkboxIcon} icon="check" />
-        </div>
+        </BaseButton>
         {children}
       </div>
-      {error && <p className={styles.error}>{getFormError(error)}</p>}
-    </div>
+    </ControlContainer>
   )
 }

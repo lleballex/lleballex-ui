@@ -5,7 +5,7 @@ import { useToasts } from '@/lib/toasts'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 // import Switch from '@/components/ui/Switch'
-// import Checkbox from '@/components/ui/Checkbox'
+import Checkbox from '@/components/ui/Checkbox'
 // import RadioGroup from '@/components/ui/RadioGroup'
 import Select from '@/components/ui/Select'
 // import TimePicker from '@/components/ui/TimePicker'
@@ -18,7 +18,7 @@ interface Form {
   colors: string[]
   // hasChildren: boolean
   // numberOfHands: number
-  // policyAccepted: boolean
+  policyAccepted: boolean
 }
 
 export default function HomeForm() {
@@ -125,16 +125,17 @@ export default function HomeForm() {
           />
         )}
       />
+ */}
       <Controller
         control={control}
         name="policyAccepted"
         rules={{ required: true }}
         render={({ field, fieldState }) => (
-          <Checkbox {...field} error={fieldState.error?.type}>
+          <Checkbox {...field} error={fieldState.error}>
             I agree with the policy
           </Checkbox>
         )}
-      /> */}
+      />
       <Button htmlType="submit" loading={isLoading}>
         Submit
       </Button>

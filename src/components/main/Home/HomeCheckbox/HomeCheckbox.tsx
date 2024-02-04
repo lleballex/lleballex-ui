@@ -8,16 +8,30 @@ export default function HomeCheckbox() {
       <h2>Checkboxes</h2>
       <div className={styles.checkboxes}>
         <Checkbox />
-        <Checkbox error="Error" />
-        <Checkbox>Some words</Checkbox>
-        <Checkbox error="Error">Some words</Checkbox>
+        <Checkbox postscript="Postscript">Label</Checkbox>
+        <Checkbox error="Error">Label</Checkbox>
         <CheckboxGroup
           items={[
             { key: 'first', value: 'First element' },
             { key: 'second', value: 'Second element' },
           ]}
         />
-        *checkbox group with error*
+        <CheckboxGroup
+          label="Label"
+          postscript="Postscript"
+          items={[
+            { key: 'first', value: 'First element' },
+            { key: 'second', value: 'Second element' },
+          ]}
+        />
+        <CheckboxGroup
+          label="Label"
+          error="Error"
+          items={[
+            { key: 'first', value: 'First element' },
+            { key: 'second', value: 'Second element' },
+          ]}
+        />
       </div>
     </div>
   )
