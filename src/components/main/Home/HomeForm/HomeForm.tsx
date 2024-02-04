@@ -1,20 +1,20 @@
 import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useToasts } from '@/lib/toasts'
-// import { Moment } from 'moment'
+import { Moment } from 'moment'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Switch from '@/components/ui/Switch'
 import Checkbox from '@/components/ui/Checkbox'
 import RadioGroup from '@/components/ui/RadioGroup'
 import Select from '@/components/ui/Select'
-// import TimePicker from '@/components/ui/TimePicker'
+import TimePicker from '@/components/ui/TimePicker'
 import styles from './HomeForm.module.scss'
 
 interface Form {
   name: string
   age: number
-  // birthTime: Moment
+  birthTime: Moment
   colors: string[]
   hasChildren: boolean
   numberOfHands: number
@@ -22,12 +22,7 @@ interface Form {
 }
 
 export default function HomeForm() {
-  const {
-    control,
-    handleSubmit,
-    formState: { isValid },
-    reset,
-  } = useForm<Form>()
+  const { control, handleSubmit, reset } = useForm<Form>()
 
   const toasts = useToasts()
 
@@ -85,19 +80,14 @@ export default function HomeForm() {
           />
         )}
       />
-      {/*<Controller
+      <Controller
         control={control}
         name="birthTime"
         rules={{ required: true }}
         render={({ field, fieldState }) => (
-          <TimePicker
-            {...field}
-            error={fieldState.error?.message}
-            label="Birth time"
-          />
+          <TimePicker {...field} error={fieldState.error} label="Birth time" />
         )}
       />
- */}
       <Controller
         control={control}
         name="hasChildren"

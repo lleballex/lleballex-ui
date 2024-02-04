@@ -23,6 +23,7 @@ export default function Switch({
   children,
 }: Props) {
   // TODO: ref - for react hook form
+  // TODO: accessibility
 
   const { value, onChange } = useControlValue({
     baseValue,

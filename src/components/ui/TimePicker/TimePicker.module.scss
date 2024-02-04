@@ -3,37 +3,38 @@
 .inputContainer {
   cursor: pointer;
 
-  .withPopover[data-placement='bottom-start'][data-status='open'] & {
+  .withPopover[data-placement='bottom'][data-status='open'] & {
     border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
-  .withPopover[data-placement='top-start'][data-status='open'] & {
+  .withPopover[data-placement='top'][data-status='open'] & {
     border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
+}
 
-  input {
-    pointer-events: none;
-    color: $gray-2;
-  }
+.input {
+  pointer-events: none;
 }
 
 .itemsContainer {
   display: flex;
+  width: 100%;
   background: $white;
   border: 1px solid $gray-4;
   transition: $transition border-color;
-  min-width: 0;
 
   .container.error & {
     border-color: $red;
   }
 
-  .withPopover[data-placement='bottom-start'] & {
+  .withPopover[data-placement='bottom'] & {
     border-radius: 0 0 $radius $radius;
     border-top: none;
   }
 
-  .withPopover[data-placement='top-start'] & {
+  .withPopover[data-placement='top'] & {
     border-radius: $radius $radius 0 0;
     border-bottom: 0;
   }
@@ -43,10 +44,12 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
+  flex-grow: 1;
 }
 
 .item {
-  padding: 10px 20px;
+  flex-shrink: 0;
+  padding: 8px 20px;
   text-align: center;
   cursor: pointer;
   transition: $transition;

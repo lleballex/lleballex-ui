@@ -6,19 +6,20 @@ export default function HomeTimePicker() {
     <div className={styles.container}>
       <h2>Time pickers</h2>
       <div className={styles.pickers}>
-        <TimePicker placeholder="Default time picker" />
-        <TimePicker
-          label="Label"
-          postscript="Postscript"
-          placeholder="Placeholder"
-        />
+        <TimePicker />
+        <TimePicker label="Label" postscript="Postscript" />
         <TimePicker
           label="Clearable"
           postscript="Postscript"
-          placeholder="Placeholder"
+          placeholder="Select time"
           clearable
         />
-        <TimePicker label="Label" placeholder="Placeholder" error="Error" />
+        <TimePicker
+          label="Clearable"
+          placeholder="Select time"
+          error="Error"
+          clearable
+        />
       </div>
     </div>
   )
