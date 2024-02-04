@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import { useToasts } from '@/lib/toasts'
+import { ToastType } from '@/lib/toasts'
+import Select from '@/components/ui/Select'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import styles from './HomeToast.module.scss'
@@ -7,23 +9,71 @@ import styles from './HomeToast.module.scss'
 export default function HomeToast() {
   const toasts = useToasts()
 
-  const [title, setTitle] = useState<null | string>(null)
-  const [content, setContent] = useState<null | string>(null)
+  const { control, handleSubmit, reset } = useForm<{
+    title: string
+    content: string
+    type: ToastType
+  }>({
+    defaultValues: {
+      type: 'info',
+    },
+  })
 
-  const addToast = () => {
-    toasts.add({ title, content })
-    setTitle(null)
-    setContent(null)
-  }
+  const onSubmit = handleSubmit((data) => {
+    switch (data.type) {
+      case 'info':
+        toasts.info(data)
+        break
+      case 'success':
+        toasts.success(data)
+        break
+      case 'error':
+        toasts.error(data)
+        break
+    }
+    reset()
+  })
 
   return (
-    <div className={styles.container}>
+    <form onSubmit={onSubmit} className={styles.container}>
       <h2>Toasts</h2>
-      <Input value={title} onChange={setTitle} placeholder="Title" />
-      <Input value={content} onChange={setContent} placeholder="Content*" />
-      <Button type="primary" onClick={addToast} disabled={!content}>
-        Add toast
-      </Button>
-    </div>
+      <Controller
+        control={control}
+        name="title"
+        render={({ field, fieldState }) => (
+          <Input {...field} error={fieldState.error?.type} label="Title" />
+        )}
+      />
+      <Controller
+        control={control}
+        name="content"
+        rules={{ required: true }}
+        render={({ field, fieldState }) => (
+          <Input {...field} error={fieldState.error?.type} label="Content*" />
+        )}
+      />
+      <Controller
+        control={control}
+        name="type"
+        rules={{ required: true }}
+        render={({ field, fieldState }) => (
+          <Select
+            {...field}
+            error={fieldState.error?.type}
+            label="Type*"
+            items={[
+              { key: 'info', value: 'Info' },
+              { key: 'success', value: 'Success' },
+              { key: 'error', value: 'Error' },
+            ]}
+          />
+        )}
+      />
+      <div className={styles.controls}>
+        <Button type="primary" htmlType="submit">
+          Add toast
+        </Button>
+      </div>
+    </form>
   )
 }

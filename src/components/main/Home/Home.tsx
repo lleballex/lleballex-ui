@@ -8,7 +8,7 @@ import HomeSelect from './HomeSelect'
 // import HomeRadio from './HomeRadio'
 // import HomeSlider from './HomeSlider'
 import HomeModal from './HomeModal'
-// import HomeToast from './HomeToast'
+import HomeToast from './HomeToast'
 import HomeForm from './HomeForm'
 // import HomeRadioCheckbox from './HomeRadioCheckbox'
 // import HomeDate from './HomeDate'
@@ -27,7 +27,7 @@ export default function Home() {
       {/* <HomeRadio /> */}
       {/* <HomeSlider /> */}
       <HomeModal />
-      {/* <HomeToast /> */}
+      <HomeToast />
       <HomeForm />
       {/* <HomeRadioCheckbox /> */}
       {/* <HomeDate /> */}

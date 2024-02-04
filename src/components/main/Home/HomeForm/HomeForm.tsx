@@ -47,7 +47,7 @@ export default function HomeForm() {
       console.log(data)
       setIsLoading(false)
       reset()
-      toasts.add({ content: 'Success! Everything works correctly' })
+      toasts.info({ content: 'Success! Everything works correctly' })
     }, 2000)
   }
 

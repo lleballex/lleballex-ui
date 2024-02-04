@@ -5,9 +5,14 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 32px;
+  --gap: 32px;
   position: fixed;
   top: 32px;
   right: 32px;
+}
+
+.toastContainer {
+  overflow: visible !important;
 }
 
 .toast {
@@ -21,13 +26,21 @@
   border-radius: $radius;
   background: $white;
   box-shadow: $shadow;
+  transform: translateX(calc(100% + 32px));
   transition: $transition;
 
-  &[data-status='enter'],
-  &[data-status='leave'] {
-    transform: translateX(calc(100% + 32px));
-    max-height: 0;
-    margin-bottom: calc(-32px - 32px);
+  &.error {
+    background: $red;
+    color: $white;
+  }
+
+  &.success {
+    background: $green;
+    color: $white;
+  }
+
+  .toastContainer:global(:is(.enter-done, .enter-active, .appear-active)) & {
+    transform: none;
   }
 }
 
@@ -41,6 +54,13 @@
 
 .toastTitle {
   @include heading-7;
+}
+
+.toastCloseIcon {
+  .toast.error &,
+  .toast.success & {
+    stroke: $white;
+  }
 }
 
 .toastContent {
