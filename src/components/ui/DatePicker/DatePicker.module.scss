@@ -1,0 +1,85 @@
+@import '@/assets/css/config';
+
+.inputContainer {
+  cursor: pointer;
+}
+
+.input {
+  pointer-events: none;
+}
+
+.calendarPopover {
+  max-height: 320px;
+
+  > div {
+    display: flex !important;
+  }
+}
+
+.calendar {
+  border-radius: $radius;
+  border: 1px solid $gray-4;
+
+  .withPopover[data-placement='bottom'] & {
+    margin-top: 10px;
+  }
+
+  .withPopover[data-placement='top'] & {
+    margin-bottom: 10px;
+  }
+
+  :global(.react-datepicker__header) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    background: none;
+    border-bottom: 1px solid $gray-4;
+  }
+
+  :global(.react-datepicker__navigation-icon) {
+    top: 3px;
+
+    &:before {
+      border-color: $gray-4;
+      transition: $transition;
+    }
+
+    &:hover:before {
+      border-color: $gray-3;
+    }
+  }
+
+  :global(.react-datepicker__day-name) {
+    @include paragraph-3;
+  }
+
+  :global(.react-datepicker__day) {
+    @include paragraph-3;
+
+    line-height: 30px !important;
+    width: 30px;
+    border-radius: $radius;
+    transition: $transition;
+
+    &:global(.react-datepicker__day--today) {
+      background: lighten($blue-light, 30%);
+    }
+
+    &:global(.react-datepicker__day--selected) {
+      background: $blue !important;
+    }
+
+    &:global(.react-datepicker__day--outside-month) {
+      color: $gray-4;
+    }
+
+    &:hover {
+      background: $gray-6;
+    }
+  }
+
+  :global(.react-datepicker__current-month) {
+    @include heading-8;
+  }
+}

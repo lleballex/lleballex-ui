@@ -9,12 +9,14 @@ import Checkbox from '@/components/ui/Checkbox'
 import RadioGroup from '@/components/ui/RadioGroup'
 import Select from '@/components/ui/Select'
 import TimePicker from '@/components/ui/TimePicker'
+import DatePicker from '@/components/ui/DatePicker'
 import styles from './HomeForm.module.scss'
 
 interface Form {
   name: string
   age: number
   birthTime: Moment
+  birthDate: Moment
   colors: string[]
   hasChildren: boolean
   numberOfHands: number
@@ -86,6 +88,14 @@ export default function HomeForm() {
         rules={{ required: true }}
         render={({ field, fieldState }) => (
           <TimePicker {...field} error={fieldState.error} label="Birth time" />
+        )}
+      />
+      <Controller
+        control={control}
+        name="birthDate"
+        rules={{ required: true }}
+        render={({ field, fieldState }) => (
+          <DatePicker {...field} error={fieldState.error} label="Birth date" />
         )}
       />
       <Controller

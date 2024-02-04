@@ -120,6 +120,7 @@ export default function TimePicker({
                   className={classNames(styles.item, {
                     [styles.active]: value?.hour() === i,
                   })}
+                  key={i}
                   onClick={() => onChange(moment(value ?? undefined).hour(i))}
                 >
                   {i}
@@ -132,6 +133,7 @@ export default function TimePicker({
                   className={classNames(styles.item, {
                     [styles.active]: value?.minute() === i,
                   })}
+                  key={i}
                   onClick={() => onChange(moment(value ?? undefined).minute(i))}
                 >
                   {i}
